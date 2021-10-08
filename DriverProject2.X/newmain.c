@@ -28,21 +28,28 @@ void main(void)
             
     // Pull Up Enable Set Up:
     CNEN1bits.CN1IE = 1; // Enables pull up resistor on RB4 
-    CNEN1bits.CN0IE = 1; // Enables pull up resistor on RB4
     CNPU1bits.CN1PUE = 1; // Enables pull up resistor on RA4 
-    CNPU1bits.CN0PUE = 1; // Enables pull up resistor on RA4 
+    
+    CNEN1bits.CN0IE = 1; // Enables pull up resistor on RB4
+    CNPU1bits.CN0PUE = 1; // Enables pull up resistor on RA4
+    
     CNEN2bits.CN30IE = 1; // Enables pull up resistor on RA2
-    CNPU2bits.CN30PUE = 1; // Enables pull up resistor on RA2 
+    CNPU2bits.CN30PUE = 1; // Enables pull up resistor on RA2
+    //OSCCONbits.OSWEN = 0; // Turn off clock
     
     LATBbits.LATB8 = 0;
     
     while(1)
     {
-        if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1)
+        if(PORTAbits.RA2 == 1)
         {
             LATBbits.LATB8 = 1; // Turns OFF LED connected to port RB8
         }
-        else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1)
+        else
+        {
+            LATBbits.LATB8 = 0;
+        }
+        /*else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1)
         {
             LATBbits.LATB8 = 1; // Turns OFF LED connected to port RB8
         }
@@ -53,7 +60,7 @@ void main(void)
         else
         {
             LATBbits.LATB8 = 0;
-        }
+        }*/
         /*else
         {
             LATBbits.LATB8 = 1; // Turns OFF LED connected to port RB8

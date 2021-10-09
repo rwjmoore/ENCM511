@@ -14,10 +14,16 @@
  * 
  */
 
-//void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void);
+void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void);
+void delay_ms(uint16_t time);
+
+int Timer2Flag = 0;
+int check = 0;
 
 void main(void)
 {
+    check = 1;
+    
     // Outputs:
     TRISBbits.TRISB8 = 0; // Makes GPIO RB8 a digital output
     
@@ -39,6 +45,32 @@ void main(void)
     
     LATBbits.LATB8 = 0;
     
+    // Timer Interrupts Setups:
+    IPC1bits.T2IP2 = 1;
+    IPC1bits.T2IP1 = 1;
+    IPC1bits.T2IP0 = 1;
+    
+    IEC0bits.T2IE = 1;
+    
+    IFS0bits.T2IF = 0;
+    
+    // Clock Setting:
+    OSCCONbits.COSC0 = 0;
+    OSCCONbits.COSC1 = 0;
+    OSCCONbits.COSC2 = 0;
+    
+    OSCCONbits.OSWEN = 0;
+    
+    // Timer Set Up:
+    T2CONbits.T32 = 0;
+    T2CONbits.TCS = 0;
+    T2CONbits.TSIDL = 0;
+    T2CONbits.TCKPS0 = 0;
+    T2CONbits.TCKPS1 = 0;
+    
+    PR2 = 0;
+    TMR2 = 0;
+    
     while(1)
     {
         if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1)
@@ -47,7 +79,9 @@ void main(void)
         }
         else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1)
         {
-            LATBbits.LATB8 = 1; // Turns OFF LED connected to port RB8
+            LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+            delay_ms(10000);
+            //LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
         }
         else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0)
         {
@@ -61,34 +95,28 @@ void main(void)
         {
             LATBbits.LATB8 = 0;
         }
-    }
-        
-    
+    } 
     return;
 }
 
-/*void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void)
+void delay_ms(uint16_t time)
 {
-    if(IFS1bits.CNIF == 1)
-    {
-        printf("Interrupt!");
-        if (PORTAbits.RA2 == 0)// && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1)
-        {
-            LATBbits.LATB8 = 1;
-        }
-        /*else if (PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1)
-        {
-            LATBbits.LATB8 = 1;
-        }
-        else if (PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0)
-        {
-            LATBbits.LATB8 = 1;
-        }
-        
-    }
-    IFS1bits.CNIF = 0; //clear IF flag
-    Nop();
-}*/
+    TMR2 = 0;
+    PR2 = 8000000*(time/(1000*2));
+    T2CONbits.TON = 1;
+    check = 2;
+    Idle();
+    //_T2Interrupt();
+    check = 3;
+}
+
+void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
+{
+    IFS0bits.T2IF = 0; // Clear Timer 2 Flag
+    T2CONbits.TON = 0; // Stops Timer
+    Timer2Flag = 1; // Global Flag
+    check = 4;
+}
 
 
 

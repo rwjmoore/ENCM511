@@ -41,7 +41,7 @@ void main(void)
     
     CNEN2bits.CN30IE = 1; // Enables pull up resistor on RA2
     CNPU2bits.CN30PUE = 1; // Enables pull up resistor on RA2
-    AD1PCFG = 0xFFFF; // Turn off clock
+    AD1PCFG = 0xFFFF; // Turn off clock on pin RA2
     
     LATBbits.LATB8 = 0;
     

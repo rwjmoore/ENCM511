@@ -26,8 +26,19 @@ void NewClk(unsigned int clkval);
 int Timer2Flag = 0;
 int check = 0;
 
-void main(void)
+void main(void) // *ASK!!!: How to read and debug variables*
 {
+    // Clock Settings:
+    NewClk(8); // Set Clock Speed to 8 MHz
+    
+    // Timer Set Up:
+    T2CONbits.TSIDL = 0; // Continue module operation when Idle
+    T2CONbits.T32 = 0; // Timer2 acts as a 16-bit timer
+    T2CONbits.TCS = 0; // Use Internal Clock
+    T2CONbits.TCKPS0 = 0; // Sets Pre-scaler to 00
+    T2CONbits.TCKPS1 = 0; // ^
+    T2CONbits.TGATE = 0; // *ASK!!* Enable/Disable time accumulation
+        
     check = 1;
     
     // Outputs:
@@ -52,31 +63,21 @@ void main(void)
     LATBbits.LATB8 = 0;
     
     // Timer Interrupts Setups:
-    IPC1bits.T2IP2 = 1;
-    IPC1bits.T2IP1 = 1;
-    IPC1bits.T2IP0 = 1;
+    IPC1bits.T2IP2 = 1; // Interrupt Priority set to 7
+    IPC1bits.T2IP1 = 1; // ^
+    IPC1bits.T2IP0 = 1; // ^
     
-    IEC0bits.T2IE = 1;
+    IEC0bits.T2IE = 1; // Enable Interrupt - Register 0
     
-    IFS0bits.T2IF = 0;
+    IFS0bits.T2IF = 0; // Interrupt Flag Status Register Cleared
     
     // Clock Setting:
     OSCCONbits.COSC0 = 0;
     OSCCONbits.COSC1 = 0;
     OSCCONbits.COSC2 = 0;
-    
-    OSCCONbits.OSWEN = 0;
-    
-    // Timer Set Up:
-    T2CONbits.T32 = 0;
-    T2CONbits.TCS = 0;
-    T2CONbits.TSIDL = 0;
-    T2CONbits.TCKPS0 = 0;
-    T2CONbits.TCKPS1 = 0;
-    
+        
     PR2 = 0;
     TMR2 = 0;
-    NewClk(8);
     
     while(1)
     {
@@ -138,9 +139,9 @@ void NewClk(unsigned int clkval)
 
 void delay_ms(uint16_t time)
 {
-    PR2 = 8000000.0*(time/(1000.0*2.0));
-    TMR2 = 0;
     T2CONbits.TON = 1;
+    TMR2 = 0;
+    PR2 = 4000*time;
     check = 2;
     Idle();
     check = 3;
@@ -148,8 +149,8 @@ void delay_ms(uint16_t time)
 
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
 {
-    IFS0bits.T2IF = 0; // Clear Timer 2 Flag
     T2CONbits.TON = 0; // Stops Timer
+    IFS0bits.T2IF = 0; // Clear Timer 2 Flag
     Timer2Flag = 1; // Global Flag
     check = 4;
 }

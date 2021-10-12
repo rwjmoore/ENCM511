@@ -65,10 +65,10 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200                0xe4           0x156  (342)
-.text                        0x2e4               0x100           0x180  (384)
-.dinit                       0x3e4                0x10            0x18  (24)
+.text                        0x2e4               0x106           0x189  (393)
+.dinit                       0x3ea                 0x8             0xc  (12)
 
-                 Total "program" memory used (bytes):          0x2ee  (750) 4%
+                 Total "program" memory used (bytes):          0x2eb  (747) 4%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x600]
@@ -76,9 +76,8 @@ section                    address   length (PC units)   length (bytes) (dec)
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
 .nbss                        0x800                   0             0x4  (4)
-.ndata                       0x804                   0             0x2  (2)
 
-                 Total "data" memory used (bytes):            0x6  (6) <1%
+                 Total "data" memory used (bytes):            0x4  (4) <1%
 
 
 Dynamic Memory Usage
@@ -86,9 +85,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x806                               0x5fa  (1530)
+stack                        0x804                               0x5fc  (1532)
 
-                 Maximum dynamic memory (bytes):          0x5fa  (1530)
+                 Maximum dynamic memory (bytes):          0x5fc  (1532)
 
 Info: Project is using a large data memory model when small data memory model is sufficient.
 
@@ -97,11 +96,9 @@ External Symbols in Data Memory (by address):
 
                     0x0800                  _Timer2Flag
                     0x0802                  _check
-                    0x0804                  _PR2Val
 
 External Symbols in Data Memory (by name):
 
-                    0x0804                  _PR2Val
                     0x0800                  _Timer2Flag
                     0x0802                  _check
 
@@ -232,14 +229,14 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x13d4
+.debug_info       0x000000       0x13ab
  *(.debug_info)
- .debug_info      0x000000       0x13d4 build/default/production/newmain.o
+ .debug_info      0x000000       0x13ab build/default/production/newmain.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x193
+.debug_abbrev     0x000000        0x17c
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x193 build/default/production/newmain.o
+ .debug_abbrev    0x000000        0x17c build/default/production/newmain.o
 
 .debug_line       0x000000        0x15e
  *(.debug_line)
@@ -260,10 +257,10 @@ __FDS
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000         0x68
+                  0x000000         0x5d
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0x68 build/default/production/newmain.o
+                  0x000000         0x5d build/default/production/newmain.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -700,20 +697,16 @@ __c30_signature
                     0x0800                  _Timer2Flag
                     0x0802                  _check
 
-.ndata              0x0804          0x2
- .ndata             0x0804          0x2 build/default/production/newmain.o
-                    0x0804                  _PR2Val
-
 .ivt._T2Interrupt
                   0x000022          0x2
  .ivt._T2Interrupt
                   0x000022          0x2 build/default/production/newmain.o
 
-.text             0x0002e4        0x100
- .text            0x0002e4        0x100 build/default/production/newmain.o
+.text             0x0002e4        0x106
+ .text            0x0002e4        0x106 build/default/production/newmain.o
                   0x0002e4                  _main
                   0x000356                  _NewClk
                   0x0003ca                  _delay_ms
 
-.dinit            0x0003e4         0x10
- .dinit           0x0003e4         0x10 data_init
+.dinit            0x0003ea          0x8
+ .dinit           0x0003ea          0x8 data_init

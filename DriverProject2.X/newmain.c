@@ -5,10 +5,14 @@
  * Created on October 5, 2021, 3:11 PM
  */
 
+#define Idle() {__asm__ volatile ("pwrsav #1");}    //Idle() - put MCU in idle mode - only CPU off
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <xc.h>
 #include <p24F16KA101.h>
+#include "xc.h"
+#include "ChangeClk.h"
 
 /*
  * 
@@ -16,6 +20,8 @@
 
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void);
 void delay_ms(uint16_t time);
+void NewClk(unsigned int clkval); 
+
 
 int Timer2Flag = 0;
 int check = 0;
@@ -70,43 +76,73 @@ void main(void)
     
     PR2 = 0;
     TMR2 = 0;
+    NewClk(8);
     
     while(1)
     {
-        if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1)
+        /*if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1)
         {
             LATBbits.LATB8 = 1; // Turns OFF LED connected to port RB8
         }
-        else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1)
+        else */if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1)
         {
             LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
             delay_ms(10000);
-            //LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
+            LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
         }
-        else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0)
+        /*else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0)
         {
             LATBbits.LATB8 = 1; // Turns OFF LED connected to port RB8
         }
         else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1)
         {
-            LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
+            LATBbitsLATB8 = 0; // Turns OFF LED connected to port RB8
         }
         else
-        {
+        {.
             LATBbits.LATB8 = 0;
-        }
+        }*/
     } 
     return;
 }
 
+void NewClk(unsigned int clkval)  
+{
+    char COSCNOSC;
+    if (clkval == 8)  //8MHz
+    {
+        COSCNOSC = 0x00;
+    }
+    else if (clkval == 500) // 500 kHz
+    {
+        COSCNOSC = 0x66;
+    }
+    else if (clkval== 32) //32 kHz
+    {
+        COSCNOSC = 0x55; 
+    }
+    else // default 32 kHz
+    {
+        COSCNOSC = 0x55;
+    }
+        // Switch clock to 500 kHz
+     SRbits.IPL = 7;  //Disable interrupts
+     CLKDIVbits.RCDIV = 0;  // CLK division = 0
+     __builtin_write_OSCCONH(COSCNOSC);   // (0x00) for 8MHz; (0x66) for 500kHz; (0x55) for 32kHz;
+     __builtin_write_OSCCONL(0x01);
+     OSCCONbits.OSWEN=1;
+     while(OSCCONbits.OSWEN==1)
+     {} 
+     SRbits.IPL = 0;  //enable interrupts
+}
+
 void delay_ms(uint16_t time)
 {
+    PR2 = 8000000.0*(time/(1000.0*2.0));
     TMR2 = 0;
-    PR2 = 8000000*(time/(1000*2));
     T2CONbits.TON = 1;
     check = 2;
     Idle();
-    //_T2Interrupt();
     check = 3;
 }
 

@@ -12,7 +12,6 @@
 #include <xc.h>
 #include <p24F16KA101.h>
 #include "xc.h"
-#include "ChangeClk.h"
 
 /*
  * 
@@ -88,7 +87,7 @@ void main(void) // *ASK!!!: How to read and debug variables*
         else */if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1)
         {
             LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
-            delay_ms(10000);
+            delay_ms(10);
             LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
         }
         /*else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0)
@@ -149,8 +148,8 @@ void delay_ms(uint16_t time)
 
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
 {
-    T2CONbits.TON = 0; // Stops Timer
     IFS0bits.T2IF = 0; // Clear Timer 2 Flag
+    T2CONbits.TON = 0; // Stops Timer
     Timer2Flag = 1; // Global Flag
     check = 4;
 }

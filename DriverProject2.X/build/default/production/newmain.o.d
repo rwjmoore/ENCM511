@@ -1,1 +1,3 @@
-build/default/production/newmain.o: newmain.c
+build/default/production/newmain.o: newmain.c ChangeClk.h
+
+ChangeClk.h:

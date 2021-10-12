@@ -17,6 +17,11 @@
  * 
  */
 
+/* How to use debug (view variables) 
+ Specifically PR2 calculation 
+ * time gate accumulation
+ */
+
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void);
 void delay_ms(uint16_t time);
 void NewClk(unsigned int clkval); 

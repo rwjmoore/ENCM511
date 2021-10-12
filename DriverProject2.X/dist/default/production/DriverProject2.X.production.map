@@ -235,9 +235,9 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x1403
+.debug_info       0x000000       0x13f9
  *(.debug_info)
- .debug_info      0x000000       0x1403 build/default/production/newmain.o
+ .debug_info      0x000000       0x13f9 build/default/production/newmain.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x18f

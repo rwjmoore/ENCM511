@@ -69,11 +69,6 @@ void main(void) // *ASK!!!: How to read and debug variables*
     IEC0bits.T2IE = 1; // Enable Interrupt - Register 0
     
     IFS0bits.T2IF = 0; // Interrupt Flag Status Register Cleared
-    
-    // Clock Setting:
-    OSCCONbits.COSC0 = 0;
-    OSCCONbits.COSC1 = 0;
-    OSCCONbits.COSC2 = 0;
         
     PR2 = 0;
     TMR2 = 0;
@@ -87,7 +82,7 @@ void main(void) // *ASK!!!: How to read and debug variables*
         else */if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1)
         {
             LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
-            delay_ms(10);
+            delay_ms(10000);
             LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
         }
         /*else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0)
@@ -104,6 +99,14 @@ void main(void) // *ASK!!!: How to read and debug variables*
         }*/
     } 
     return;
+}
+
+void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
+{
+    IFS0bits.T2IF = 0; // Clear Timer 2 Flag
+    T2CONbits.TON = 0; // Stops Timer
+    Timer2Flag = 1; // Global Flag
+    check = 4;
 }
 
 void NewClk(unsigned int clkval)  
@@ -138,21 +141,12 @@ void NewClk(unsigned int clkval)
 
 void delay_ms(uint16_t time)
 {
-    T2CONbits.TON = 1;
-    TMR2 = 0;
-    PR2 = 4000*time;
+    T2CONbits.TON = 1; // Start Clock
+    TMR2 = 0; // Timer Cleared
+    PR2 = 4000*time;  // PR2 Calculation
     check = 2;
     Idle();
     check = 3;
 }
-
-void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
-{
-    IFS0bits.T2IF = 0; // Clear Timer 2 Flag
-    T2CONbits.TON = 0; // Stops Timer
-    Timer2Flag = 1; // Global Flag
-    check = 4;
-}
-
 
 

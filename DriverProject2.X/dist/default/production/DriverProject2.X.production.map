@@ -65,10 +65,10 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200                0xe4           0x156  (342)
-.text                        0x2e4               0x100           0x180  (384)
-.dinit                       0x3e4                 0x8             0xc  (12)
+.text                        0x2e4               0x12e           0x1c5  (453)
+.dinit                       0x412                 0x8             0xc  (12)
 
-                 Total "program" memory used (bytes):          0x2e2  (738) 4%
+                 Total "program" memory used (bytes):          0x327  (807) 5%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x600]
@@ -111,19 +111,25 @@ External Symbols in Program Memory (by address):
                   0x0002c8                  __T2Interrupt
                   0x0002de                  __DefaultInterrupt
                   0x0002e4                  _main
-                  0x000350                  _NewClk
-                  0x0003c4                  _delay_ms
+                  0x00034c                  _NewClk
+                  0x0003c0                  _delay_ms
+                  0x0003e6                  _configClock
+                  0x0003f0                  _configTimerInterrupt
+                  0x000400                  _configTimers
 
 External Symbols in Program Memory (by name):
 
-                  0x000350                  _NewClk
+                  0x00034c                  _NewClk
                   0x0002de                  __DefaultInterrupt
                   0x0002c8                  __T2Interrupt
                   0x000252                  __data_init
                   0x000252                  __data_init_standard
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x0003c4                  _delay_ms
+                  0x0003e6                  _configClock
+                  0x0003f0                  _configTimerInterrupt
+                  0x000400                  _configTimers
+                  0x0003c0                  _delay_ms
                   0x0002e4                  _main
 
 Memory Configuration
@@ -229,22 +235,22 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x13ab
+.debug_info       0x000000       0x1403
  *(.debug_info)
- .debug_info      0x000000       0x13ab build/default/production/newmain.o
+ .debug_info      0x000000       0x1403 build/default/production/newmain.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x17c
+.debug_abbrev     0x000000        0x18f
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x17c build/default/production/newmain.o
+ .debug_abbrev    0x000000        0x18f build/default/production/newmain.o
 
-.debug_line       0x000000        0x15d
+.debug_line       0x000000        0x170
  *(.debug_line)
- .debug_line      0x000000        0x15d build/default/production/newmain.o
+ .debug_line      0x000000        0x170 build/default/production/newmain.o
 
-.debug_frame      0x000000         0x86
+.debug_frame      0x000000         0xd4
  *(.debug_frame)
- .debug_frame     0x000000         0x86 build/default/production/newmain.o
+ .debug_frame     0x000000         0xd4 build/default/production/newmain.o
 
 .debug_str        0x000000         0x9f
  *(.debug_str)
@@ -257,10 +263,10 @@ __FDS
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000         0x5d
+                  0x000000         0x97
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0x5d build/default/production/newmain.o
+                  0x000000         0x97 build/default/production/newmain.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -702,11 +708,14 @@ __c30_signature
  .ivt._T2Interrupt
                   0x000022          0x2 build/default/production/newmain.o
 
-.text             0x0002e4        0x100
- .text            0x0002e4        0x100 build/default/production/newmain.o
+.text             0x0002e4        0x12e
+ .text            0x0002e4        0x12e build/default/production/newmain.o
                   0x0002e4                  _main
-                  0x000350                  _NewClk
-                  0x0003c4                  _delay_ms
+                  0x00034c                  _NewClk
+                  0x0003c0                  _delay_ms
+                  0x0003e6                  _configClock
+                  0x0003f0                  _configTimerInterrupt
+                  0x000400                  _configTimers
 
-.dinit            0x0003e4          0x8
- .dinit           0x0003e4          0x8 data_init
+.dinit            0x000412          0x8
+ .dinit           0x000412          0x8 data_init

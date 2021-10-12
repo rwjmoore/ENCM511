@@ -21,8 +21,12 @@ void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void);
 void delay_ms(uint16_t time);
 void NewClk(unsigned int clkval); 
 
+void configClock();
+void configTimers();
+void configTimerInterrupt();
 
-int Timer2Flag = 0;
+
+int Timer2Flag = 0; // Global Timer Flag Variable
 int check = 0;
 
 void main(void) // *ASK!!!: How to read and debug variables*
@@ -37,6 +41,14 @@ void main(void) // *ASK!!!: How to read and debug variables*
     T2CONbits.TCKPS0 = 0; // Sets Pre-scaler to 00
     T2CONbits.TCKPS1 = 0; // ^
     T2CONbits.TGATE = 0; // *ASK!!* Enable/Disable time accumulation
+    
+    // Timer Interrupts Setups:
+    IPC1bits.T2IP2 = 1; // Interrupt Priority set to 7
+    IPC1bits.T2IP1 = 1; // ^
+    IPC1bits.T2IP0 = 1; // ^
+    
+    IEC0bits.T2IE = 1; // Enable Interrupt - Register 0
+    IFS0bits.T2IF = 0; // Interrupt Flag Status Register Cleared
         
     check = 1;
     
@@ -60,18 +72,6 @@ void main(void) // *ASK!!!: How to read and debug variables*
     AD1PCFG = 0xFFFF; // Turn off clock on pin RA2
     
     LATBbits.LATB8 = 0;
-    
-    // Timer Interrupts Setups:
-    IPC1bits.T2IP2 = 1; // Interrupt Priority set to 7
-    IPC1bits.T2IP1 = 1; // ^
-    IPC1bits.T2IP0 = 1; // ^
-    
-    IEC0bits.T2IE = 1; // Enable Interrupt - Register 0
-    
-    IFS0bits.T2IF = 0; // Interrupt Flag Status Register Cleared
-        
-    PR2 = 0;
-    TMR2 = 0;
     
     while(1)
     {
@@ -141,12 +141,42 @@ void NewClk(unsigned int clkval)
 
 void delay_ms(uint16_t time)
 {
+    configClock();
+    configTimers();
+    configTimerInterrupt();
+    
     T2CONbits.TON = 1; // Start Clock
     TMR2 = 0; // Timer Cleared
     PR2 = 4000*time;  // PR2 Calculation
     check = 2;
-    Idle();
+    Idle(); // Go into Idle Mode
     check = 3;
 }
 
+void configClock()
+{
+    // Clock Settings:
+    NewClk(8); // Set Clock Speed to 8 MHz
+}
 
+void configTimerInterrupt()
+{
+    // Timer Interrupts Setups:
+    IPC1bits.T2IP2 = 1; // Interrupt Priority set to 7
+    IPC1bits.T2IP1 = 1; // ^
+    IPC1bits.T2IP0 = 1; // ^
+    
+    IEC0bits.T2IE = 1; // Enable Interrupt - Register 0
+    IFS0bits.T2IF = 0; // Interrupt Flag Status Register Cleared
+}
+
+void configTimers()
+{
+    // Timer Set Up:
+    T2CONbits.TSIDL = 0; // Continue module operation when Idle
+    T2CONbits.T32 = 0; // Timer2 acts as a 16-bit timer
+    T2CONbits.TCS = 0; // Use Internal Clock
+    T2CONbits.TCKPS0 = 0; // Sets Pre-scaler to 00
+    T2CONbits.TCKPS1 = 0; // ^
+    T2CONbits.TGATE = 0; // *ASK!!* Enable/Disable time accumulation
+}

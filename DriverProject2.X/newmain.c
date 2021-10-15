@@ -26,7 +26,6 @@ void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void);
 void delay_ms(uint16_t time);
 void NewClk(unsigned int clkval); 
 
-void configClock();
 void configTimers();
 void configTimerInterrupt();
 
@@ -66,9 +65,9 @@ void main(void) // *ASK!!!: How to read and debug variables*
         else */if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1)
         {
             LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
-            delay_ms(10000);
+            delay_ms(4000);
             LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
-            delay_ms(10000);
+            delay_ms(4000);
         }
         /*else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0)
         {
@@ -126,25 +125,17 @@ void NewClk(unsigned int clkval)
 
 void delay_ms(uint16_t time)
 {
-    configClock();
     configTimerInterrupt();
     configTimers();
     
     T2CONbits.TON = 1; // Start Clock
     TMR2 = 0; // Timer Cleared
-    PR2 = 4 * time;  // PR2 Calculation
+    PR2 = 8 * time;// PR2 Calculation
     Idle(); //Idle until a interrupt is handled
     T2CONbits.TON = 0; //Turn off clock
     TMR2 = 0;
     check = 2;
     check = 3;
-}
-
-
-void configClock()
-{
-    // Clock Settings:
-    NewClk(8); // Set Clock Speed to 8 MHz
 }
 
 void configTimerInterrupt()
@@ -162,5 +153,5 @@ void configTimers()
     T2CONbits.TSIDL = 0; // Continue module operation when Idle
     T2CONbits.T32 = 0; // Timer2 acts as a 16-bit timer
     T2CONbits.TCS = 0; // Use Internal Clock
-    T2CONbits.TCKPS = 3; // Sets Pre-scaler to 00
+    T2CONbits.TCKPS = 3; // Sets Pre-scaler to 11
 }

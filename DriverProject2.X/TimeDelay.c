@@ -6,6 +6,8 @@
  */
 
 
+#include <xc.h>
+#include <p24F16KA101.h>
 
 
 void configTimerInterrupt();

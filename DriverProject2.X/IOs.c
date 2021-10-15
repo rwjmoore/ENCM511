@@ -4,6 +4,8 @@
  *
  * Created on October 15, 2021, 3:06 PM
  */
+#include <xc.h>
+#include <p24F16KA101.h>
 #include "TimeDelay.h"
 
 

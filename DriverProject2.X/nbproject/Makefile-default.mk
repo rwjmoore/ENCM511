@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=newmain.c
+SOURCEFILES_QUOTED_IF_SPACED=newmain.c IOs.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/newmain.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/newmain.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/newmain.o ${OBJECTDIR}/IOs.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/newmain.o.d ${OBJECTDIR}/IOs.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/newmain.o
+OBJECTFILES=${OBJECTDIR}/newmain.o ${OBJECTDIR}/IOs.o
 
 # Source Files
-SOURCEFILES=newmain.c
+SOURCEFILES=newmain.c IOs.c
 
 
 
@@ -95,18 +95,30 @@ MP_LINKER_FILE_OPTION=,--script=p24F16KA101.gld
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/newmain.o: newmain.c  .generated_files/flags/default/61c8f04e2fef934201aa15d62769b04ae4a6288c .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/newmain.o: newmain.c  .generated_files/flags/default/4417e9d87124e2260f3ad1b69c46097824e42579 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/newmain.o.d 
 	@${RM} ${OBJECTDIR}/newmain.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  newmain.c  -o ${OBJECTDIR}/newmain.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/newmain.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
+${OBJECTDIR}/IOs.o: IOs.c  .generated_files/flags/default/3066dc5b980afb4971613c7c9e4ff5d28f30a38 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/IOs.o.d 
+	@${RM} ${OBJECTDIR}/IOs.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  IOs.c  -o ${OBJECTDIR}/IOs.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/IOs.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
 else
-${OBJECTDIR}/newmain.o: newmain.c  .generated_files/flags/default/c04c35ed413b5624cc9516b0ae2cae9e36f70bf9 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/newmain.o: newmain.c  .generated_files/flags/default/1e4c8acc4d147d6e66804e56c1ebf70526cbaa78 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/newmain.o.d 
 	@${RM} ${OBJECTDIR}/newmain.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  newmain.c  -o ${OBJECTDIR}/newmain.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/newmain.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/IOs.o: IOs.c  .generated_files/flags/default/bc2e1e299d497c7e4e7a6c45aaec3b661a4818f4 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/IOs.o.d 
+	@${RM} ${OBJECTDIR}/IOs.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  IOs.c  -o ${OBJECTDIR}/IOs.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/IOs.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 endif
 

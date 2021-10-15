@@ -65,10 +65,10 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200                0xe4           0x156  (342)
-.text                        0x2e4               0x1ca           0x2af  (687)
-.dinit                       0x4ae                 0x8             0xc  (12)
+.text                        0x2e4               0x1cc           0x2b2  (690)
+.dinit                       0x4b0                 0x8             0xc  (12)
 
-                 Total "program" memory used (bytes):          0x411  (1041) 6%
+                 Total "program" memory used (bytes):          0x414  (1044) 6%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x600]
@@ -111,27 +111,27 @@ External Symbols in Program Memory (by address):
                   0x0002c8                  __T2Interrupt
                   0x0002de                  __DefaultInterrupt
                   0x0002e4                  _main
-                  0x0002ec                  _IOinit
-                  0x00030c                  _IOCheck
-                  0x0003a2                  _DebounceButtons
-                  0x000464                  _Delay_ms
-                  0x000488                  _configTimerInterrupt
-                  0x00049a                  _configTimers
+                  0x0002ee                  _IOinit
+                  0x00030e                  _IOCheck
+                  0x0003a4                  _DebounceButtons
+                  0x000466                  _Delay_ms
+                  0x00048a                  _configTimerInterrupt
+                  0x00049c                  _configTimers
 
 External Symbols in Program Memory (by name):
 
-                  0x0003a2                  _DebounceButtons
-                  0x000464                  _Delay_ms
-                  0x00030c                  _IOCheck
-                  0x0002ec                  _IOinit
+                  0x0003a4                  _DebounceButtons
+                  0x000466                  _Delay_ms
+                  0x00030e                  _IOCheck
+                  0x0002ee                  _IOinit
                   0x0002de                  __DefaultInterrupt
                   0x0002c8                  __T2Interrupt
                   0x000252                  __data_init
                   0x000252                  __data_init_standard
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x000488                  _configTimerInterrupt
-                  0x00049a                  _configTimers
+                  0x00048a                  _configTimerInterrupt
+                  0x00049c                  _configTimers
                   0x0002e4                  _main
 
 Memory Configuration
@@ -237,18 +237,18 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x1066
+.debug_info       0x000000       0x105c
  *(.debug_info)
- .debug_info      0x000000       0x1066 build/default/production/newmain.o
+ .debug_info      0x000000       0x105c build/default/production/newmain.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x193
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x193 build/default/production/newmain.o
 
-.debug_line       0x000000        0x178
+.debug_line       0x000000        0x179
  *(.debug_line)
- .debug_line      0x000000        0x178 build/default/production/newmain.o
+ .debug_line      0x000000        0x179 build/default/production/newmain.o
 
 .debug_frame      0x000000         0xee
  *(.debug_frame)
@@ -710,15 +710,15 @@ __c30_signature
  .ivt._T2Interrupt
                   0x000022          0x2 build/default/production/newmain.o
 
-.text             0x0002e4        0x1ca
- .text            0x0002e4        0x1ca build/default/production/newmain.o
+.text             0x0002e4        0x1cc
+ .text            0x0002e4        0x1cc build/default/production/newmain.o
                   0x0002e4                  _main
-                  0x0002ec                  _IOinit
-                  0x00030c                  _IOCheck
-                  0x0003a2                  _DebounceButtons
-                  0x000464                  _Delay_ms
-                  0x000488                  _configTimerInterrupt
-                  0x00049a                  _configTimers
+                  0x0002ee                  _IOinit
+                  0x00030e                  _IOCheck
+                  0x0003a4                  _DebounceButtons
+                  0x000466                  _Delay_ms
+                  0x00048a                  _configTimerInterrupt
+                  0x00049c                  _configTimers
 
-.dinit            0x0004ae          0x8
- .dinit           0x0004ae          0x8 data_init
+.dinit            0x0004b0          0x8
+ .dinit           0x0004b0          0x8 data_init

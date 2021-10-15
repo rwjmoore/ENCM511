@@ -30,7 +30,7 @@ void IOCheck();
 
 void configTimers();
 void configTimerInterrupt();
-
+void DebounceButtons();
 
 int Timer2Flag = 0; // Global Timer Flag Variable
 int check = 0;
@@ -42,7 +42,7 @@ void main(void) // *ASK!!!: How to read and debug variables*
     while(1)
     {
         // Button Debouncing:
-        
+        DebounceButtons();
             
         IOCheck();
     } 
@@ -140,7 +140,7 @@ void DebounceButtons()
             {
                 resCheck++;
             }
-            if(resCheck > 3)
+            if(resCheck > 10)
             {
                 break;
             }

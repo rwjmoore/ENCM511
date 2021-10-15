@@ -30,7 +30,7 @@ void IOCheck()
         LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
         Delay_ms(3000);     // Delay for 3 second
         LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
-            Delay_ms(3000);     // Delay for 3 second
+        Delay_ms(3000);     // Delay for 3 second
     }
     else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // No buttons pressed
     {

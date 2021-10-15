@@ -58,29 +58,78 @@ void main(void) // *ASK!!!: How to read and debug variables*
     
     while(1)
     {
-        /*if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1)
+        // Button Debouncing:
+        if (PORTAbits.RA2 == 0 || PORTAbits.RA4 == 0 || PORTBbits.RB4 == 0)
         {
-            LATBbits.LATB8 = 1; // Turns OFF LED connected to port RB8
+            int resCheck = 0;
+            int pastResult = 0;
+            int result = 0;
+            while(1)
+            {
+                if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // PB1 (RA2) is pressed
+                {
+                    result = 1;
+                }
+                else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1) // PB2 (RA4) is pressed
+                {
+                    result = 2;
+                }
+                else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0) // PB3 (RB4) is pressed
+                {
+                    result = 3;
+                }
+                else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // No buttons pressed
+                {
+                    result = 0;
+                }
+                else // Multiple buttons pressed
+                {
+                    result = 4;
+                }
+                
+                if (pastResult == result)
+                {
+                    resCheck++;
+                }
+                if(resCheck > 3)
+                {
+                    break;
+                }
+                
+                pastResult = result;
+                delay_ms(10);
+            }
         }
-        else */if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1)
+            
+        if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // PB1 (RA2) is pressed
         {
             LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
-            delay_ms(4000);
+            delay_ms(1000);     // Delay for 1 second
             LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
-            delay_ms(4000);
+            delay_ms(1000);     // Delay for 1 second
         }
-        /*else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0)
+        else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1) // PB2 (RA4) is pressed
         {
-            LATBbits.LATB8 = 1; // Turns OFF LED connected to port RB8
+            LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+            delay_ms(2000);     // Delay for 2 second
+            LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
+            delay_ms(2000);     // Delay for 2 second
         }
-        else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1)
+        else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0) // PB3 (RB4) is pressed
         {
-            LATBbitsLATB8 = 0; // Turns OFF LED connected to port RB8
+            LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+            delay_ms(3000);     // Delay for 3 second
+            LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
+            delay_ms(3000);     // Delay for 3 second
         }
-        else
-        {.
-            LATBbits.LATB8 = 0;
-        }*/
+        else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // No buttons pressed
+        {
+            LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
+        }
+        else // Multiple buttons pressed
+        {
+            LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+        }
     } 
     return;
 }

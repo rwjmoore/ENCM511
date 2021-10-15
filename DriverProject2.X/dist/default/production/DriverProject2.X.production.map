@@ -65,10 +65,10 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200                0xe4           0x156  (342)
-.text                        0x2e4               0x10c           0x192  (402)
-.dinit                       0x3f0                 0x8             0xc  (12)
+.text                        0x2e4               0x22a           0x33f  (831)
+.dinit                       0x50e                 0x8             0xc  (12)
 
-                 Total "program" memory used (bytes):          0x2f4  (756) 4%
+                 Total "program" memory used (bytes):          0x4a1  (1185) 7%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x600]
@@ -111,23 +111,23 @@ External Symbols in Program Memory (by address):
                   0x0002c8                  __T2Interrupt
                   0x0002de                  __DefaultInterrupt
                   0x0002e4                  _main
-                  0x000332                  _NewClk
-                  0x0003a6                  _delay_ms
-                  0x0003ca                  _configTimerInterrupt
-                  0x0003dc                  _configTimers
+                  0x000450                  _NewClk
+                  0x0004c4                  _delay_ms
+                  0x0004e8                  _configTimerInterrupt
+                  0x0004fa                  _configTimers
 
 External Symbols in Program Memory (by name):
 
-                  0x000332                  _NewClk
+                  0x000450                  _NewClk
                   0x0002de                  __DefaultInterrupt
                   0x0002c8                  __T2Interrupt
                   0x000252                  __data_init
                   0x000252                  __data_init_standard
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x0003ca                  _configTimerInterrupt
-                  0x0003dc                  _configTimers
-                  0x0003a6                  _delay_ms
+                  0x0004e8                  _configTimerInterrupt
+                  0x0004fa                  _configTimers
+                  0x0004c4                  _delay_ms
                   0x0002e4                  _main
 
 Memory Configuration
@@ -233,18 +233,18 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x13e9
+.debug_info       0x000000       0x1431
  *(.debug_info)
- .debug_info      0x000000       0x13e9 build/default/production/newmain.o
+ .debug_info      0x000000       0x1431 build/default/production/newmain.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x18f
+.debug_abbrev     0x000000        0x198
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x18f build/default/production/newmain.o
+ .debug_abbrev    0x000000        0x198 build/default/production/newmain.o
 
-.debug_line       0x000000        0x15e
+.debug_line       0x000000        0x180
  *(.debug_line)
- .debug_line      0x000000        0x15e build/default/production/newmain.o
+ .debug_line      0x000000        0x180 build/default/production/newmain.o
 
 .debug_frame      0x000000         0xba
  *(.debug_frame)
@@ -706,13 +706,13 @@ __c30_signature
  .ivt._T2Interrupt
                   0x000022          0x2 build/default/production/newmain.o
 
-.text             0x0002e4        0x10c
- .text            0x0002e4        0x10c build/default/production/newmain.o
+.text             0x0002e4        0x22a
+ .text            0x0002e4        0x22a build/default/production/newmain.o
                   0x0002e4                  _main
-                  0x000332                  _NewClk
-                  0x0003a6                  _delay_ms
-                  0x0003ca                  _configTimerInterrupt
-                  0x0003dc                  _configTimers
+                  0x000450                  _NewClk
+                  0x0004c4                  _delay_ms
+                  0x0004e8                  _configTimerInterrupt
+                  0x0004fa                  _configTimers
 
-.dinit            0x0003f0          0x8
- .dinit           0x0003f0          0x8 data_init
+.dinit            0x00050e          0x8
+ .dinit           0x00050e          0x8 data_init

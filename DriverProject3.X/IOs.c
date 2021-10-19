@@ -14,7 +14,7 @@ void IOCheck()
 {
     if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // PB1 (RA2) is pressed
     {
-        Disp2String("PB1 is pressed");
+        Disp2String("\rPB1 is pressed");
         LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
         Delay_ms(500);     // Delay for 0.5 second
         LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
@@ -22,7 +22,7 @@ void IOCheck()
     }
     else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1) // PB2 (RA4) is pressed
     {
-        Disp2String("PB2 is pressed");
+        Disp2String("\rPB2 is pressed");
         LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
         Delay_ms(2000);     // Delay for 2 second
         LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
@@ -30,7 +30,7 @@ void IOCheck()
     }
     else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0) // PB3 (RB4) is pressed
     {
-        Disp2String("PB3 is pressed");
+        Disp2String("\rPB3 is pressed");
         LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
         Delay_ms(3000);     // Delay for 3 second
         LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
@@ -40,26 +40,26 @@ void IOCheck()
     {
         if (PORTBbits.RB4 == 0)
         {
-            Disp2String("PB1 and PB2 are pressed");     
+            Disp2String("\rPB1 and PB2 are pressed");;     
         }
         else if(PORTAbits.RA4 == 0)
         {
-            Disp2String("PB1 and PB3 are pressed");     
+            Disp2String("\rPB1 and PB3 are pressed");     
         }
         else if(PORTAbits.RA2 == 0)
         {
-            Disp2String("PB2 and PB3 are pressed");     
+            Disp2String("\rPB2 and PB3 are pressed");     
         }
         LATBbits.LATB8 = 0; // Turns OFF LED connected to port RB8
     }
     else if (PORTAbits.RA2 == 0 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 0) // 3 buttons pressed
     {
-        Disp2String("Nothing pressed");
+        Disp2String("\rNothing pressed");
         LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
     }
     else // 2 Buttons pressed
     {
-        Disp2String("All PBs pressed");
+        Disp2String("\rAll PBs pressed");
         LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
     }
 }

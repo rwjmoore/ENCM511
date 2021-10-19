@@ -58,7 +58,6 @@ void DebounceButtons()
             if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // PB1 (RA2) is pressed
             {
                 result = 1;
-                Disp2String("hELLO");
             }
             else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1) // PB2 (RA4) is pressed
             {
@@ -72,7 +71,11 @@ void DebounceButtons()
             {
                 result = 0;
             }
-            else // Multiple buttons pressed
+            else if (PORTAbits.RA2 == 0 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 0) // 3 buttons pressed
+            {
+                result = 5;
+            }
+            else // 2 Buttons 
             {
                 result = 4;
             }

@@ -51,7 +51,7 @@ void Delay_ms(uint16_t time_ms)
     
     T2CONbits.TON = 1; // Start Clock
     TMR2 = 0; // Timer Cleared
-    PR2 = 8 * time_ms;// PR2 Calculation
+    PR2 = 16 * time_ms;// PR2 Calculation
     Idle(); //Idle until a interrupt is handled
     T2CONbits.TON = 0; //Turn off clock
     TMR2 = 0;

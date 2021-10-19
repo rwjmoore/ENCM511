@@ -35,6 +35,7 @@ int check = 0;
 int main(void) // *ASK!!!: How to read and debug variables*
 {
     IOinit();
+    NewClk(8);
     
     while(1)
     {

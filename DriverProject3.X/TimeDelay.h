@@ -13,3 +13,4 @@
 void Delay_ms(uint16_t time_ms);
 void configTimers();
 void configTimerInterrupt();
+void NewClk(unsigned int clkval);

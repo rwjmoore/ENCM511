@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=newmain.c IOs.c TimeDelay.c
+SOURCEFILES_QUOTED_IF_SPACED=newmain.c IOs.c TimeDelay.c ../DriverProject3.X/UART2.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/newmain.o ${OBJECTDIR}/IOs.o ${OBJECTDIR}/TimeDelay.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/newmain.o.d ${OBJECTDIR}/IOs.o.d ${OBJECTDIR}/TimeDelay.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/newmain.o ${OBJECTDIR}/IOs.o ${OBJECTDIR}/TimeDelay.o ${OBJECTDIR}/_ext/248999301/UART2.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/newmain.o.d ${OBJECTDIR}/IOs.o.d ${OBJECTDIR}/TimeDelay.o.d ${OBJECTDIR}/_ext/248999301/UART2.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/newmain.o ${OBJECTDIR}/IOs.o ${OBJECTDIR}/TimeDelay.o
+OBJECTFILES=${OBJECTDIR}/newmain.o ${OBJECTDIR}/IOs.o ${OBJECTDIR}/TimeDelay.o ${OBJECTDIR}/_ext/248999301/UART2.o
 
 # Source Files
-SOURCEFILES=newmain.c IOs.c TimeDelay.c
+SOURCEFILES=newmain.c IOs.c TimeDelay.c ../DriverProject3.X/UART2.c
 
 
 
@@ -113,6 +113,12 @@ ${OBJECTDIR}/TimeDelay.o: TimeDelay.c  .generated_files/flags/default/5542d1fd76
 	@${RM} ${OBJECTDIR}/TimeDelay.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  TimeDelay.c  -o ${OBJECTDIR}/TimeDelay.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/TimeDelay.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
+${OBJECTDIR}/_ext/248999301/UART2.o: ../DriverProject3.X/UART2.c  .generated_files/flags/default/c25166d0548cd986d5319e9a744d8747b1a91978 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+	@${MKDIR} "${OBJECTDIR}/_ext/248999301" 
+	@${RM} ${OBJECTDIR}/_ext/248999301/UART2.o.d 
+	@${RM} ${OBJECTDIR}/_ext/248999301/UART2.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../DriverProject3.X/UART2.c  -o ${OBJECTDIR}/_ext/248999301/UART2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/_ext/248999301/UART2.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
 else
 ${OBJECTDIR}/newmain.o: newmain.c  .generated_files/flags/default/c04c35ed413b5624cc9516b0ae2cae9e36f70bf9 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
@@ -131,6 +137,12 @@ ${OBJECTDIR}/TimeDelay.o: TimeDelay.c  .generated_files/flags/default/78488b4acc
 	@${RM} ${OBJECTDIR}/TimeDelay.o.d 
 	@${RM} ${OBJECTDIR}/TimeDelay.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  TimeDelay.c  -o ${OBJECTDIR}/TimeDelay.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/TimeDelay.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/_ext/248999301/UART2.o: ../DriverProject3.X/UART2.c  .generated_files/flags/default/99f47c183f26e4df94c72c9ec49bf0a2a782ef4a .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+	@${MKDIR} "${OBJECTDIR}/_ext/248999301" 
+	@${RM} ${OBJECTDIR}/_ext/248999301/UART2.o.d 
+	@${RM} ${OBJECTDIR}/_ext/248999301/UART2.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../DriverProject3.X/UART2.c  -o ${OBJECTDIR}/_ext/248999301/UART2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/_ext/248999301/UART2.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 endif
 

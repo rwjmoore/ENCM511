@@ -17,6 +17,8 @@
       <itemPath>newmain.c</itemPath>
       <itemPath>IOs.c</itemPath>
       <itemPath>TimeDelay.c</itemPath>
+      <itemPath>../DriverProject3.X/UART2.c</itemPath>
+      <itemPath>../DriverProject3.X/UART2.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -26,6 +28,7 @@
   </logicalFolder>
   <sourceRootList>
     <Elem></Elem>
+    <Elem>../DriverProject3.X</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

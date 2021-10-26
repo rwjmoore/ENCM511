@@ -17,6 +17,7 @@ void NewClk(unsigned int clkval);
 void NewClk(unsigned int clkval)  
 {
     char COSCNOSC;
+    
     if (clkval == 8)  //8MHz
     {
         COSCNOSC = 0x00;

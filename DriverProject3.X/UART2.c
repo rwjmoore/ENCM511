@@ -26,7 +26,6 @@ void InitUART2(void)
 	TRISBbits.TRISB0=0;
 	TRISBbits.TRISB1=1;
 	LATBbits.LATB0=1;
-
 	// configure U2MODE
     U2MODE = 0b0000000000001000;
 /*    

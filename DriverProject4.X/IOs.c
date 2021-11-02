@@ -10,13 +10,39 @@
 #include "UART2.h"
 #include "ADC.h"
 
+uint16_t counter = 0;
+uint16_t average = 0;
+uint16_t ADCValue = 0;
+
 void IOCheck()
 {
-    uint16_t ADCValue = do_ADC();
-    Disp2String("\r...ADC.Value.=.");
-    Disp2Dec(ADCValue);
-    Disp2String("..");
-    Delay_ms(10);
+    if (counter < 1000)
+    {   
+        ADCValue = do_ADC();
+        Delay_ms(1);
+       
+        average += ADCValue  * 3.25 / 1024;
+        counter++;
+    }
+    else
+    {
+        Disp2String("\n");
+        Disp2String("...ADC.Value.=.");
+        Disp2Dec(ADCValue);
+        Disp2String("...Average.=.");
+        Disp2Dec(average);
+        uint16_t val = average / 1000;
+        /*while (val)
+        {
+            Disp2String("o");
+        }*/
+        counter = 0;
+    }
+    
+    
+    
+    
+    
     
     if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // PB1 (RA2) is pressed
     {

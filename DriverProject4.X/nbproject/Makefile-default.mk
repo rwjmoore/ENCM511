@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=IOs.c TimeDelay.c newmain.c
+SOURCEFILES_QUOTED_IF_SPACED=IOs.c TimeDelay.c newmain.c UART2.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/IOs.o ${OBJECTDIR}/TimeDelay.o ${OBJECTDIR}/newmain.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/IOs.o.d ${OBJECTDIR}/TimeDelay.o.d ${OBJECTDIR}/newmain.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/IOs.o ${OBJECTDIR}/TimeDelay.o ${OBJECTDIR}/newmain.o ${OBJECTDIR}/UART2.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/IOs.o.d ${OBJECTDIR}/TimeDelay.o.d ${OBJECTDIR}/newmain.o.d ${OBJECTDIR}/UART2.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/IOs.o ${OBJECTDIR}/TimeDelay.o ${OBJECTDIR}/newmain.o
+OBJECTFILES=${OBJECTDIR}/IOs.o ${OBJECTDIR}/TimeDelay.o ${OBJECTDIR}/newmain.o ${OBJECTDIR}/UART2.o
 
 # Source Files
-SOURCEFILES=IOs.c TimeDelay.c newmain.c
+SOURCEFILES=IOs.c TimeDelay.c newmain.c UART2.c
 
 
 
@@ -113,6 +113,12 @@ ${OBJECTDIR}/newmain.o: newmain.c  .generated_files/flags/default/4e1e88ede6e59a
 	@${RM} ${OBJECTDIR}/newmain.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  newmain.c  -o ${OBJECTDIR}/newmain.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/newmain.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
+${OBJECTDIR}/UART2.o: UART2.c  .generated_files/flags/default/af72301d1d0abef8b6fa09f6f5ba6b205b77cd00 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/UART2.o.d 
+	@${RM} ${OBJECTDIR}/UART2.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  UART2.c  -o ${OBJECTDIR}/UART2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/UART2.o.d"      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
 else
 ${OBJECTDIR}/IOs.o: IOs.c  .generated_files/flags/default/494397be7741441eb3ee88c5b512f22f8874de1d .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
@@ -131,6 +137,12 @@ ${OBJECTDIR}/newmain.o: newmain.c  .generated_files/flags/default/e61b2e0e1f06ad
 	@${RM} ${OBJECTDIR}/newmain.o.d 
 	@${RM} ${OBJECTDIR}/newmain.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  newmain.c  -o ${OBJECTDIR}/newmain.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/newmain.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/UART2.o: UART2.c  .generated_files/flags/default/d872f7a19bb40a69853c764f901a63f9b1d9c9b6 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/UART2.o.d 
+	@${RM} ${OBJECTDIR}/UART2.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  UART2.c  -o ${OBJECTDIR}/UART2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/UART2.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 endif
 

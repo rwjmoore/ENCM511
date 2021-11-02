@@ -9,7 +9,6 @@
 #include "TimeDelay.h"
 #include "UART2.h"
 
-
 void IOCheck()
 {
     if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // PB1 (RA2) is pressed

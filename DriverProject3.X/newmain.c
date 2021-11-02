@@ -47,11 +47,6 @@ int main(void) // *ASK!!!: How to read and debug variables*
     return 0;
 }
 
-
-
-
-
-
 void DebounceButtons()
 {
     if (PORTAbits.RA2 == 0 || PORTAbits.RA4 == 0 || PORTBbits.RB4 == 0)

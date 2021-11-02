@@ -12,4 +12,3 @@
 
 void IOinit();
 void IOCheck();
-uint16_t do_ADC(void);

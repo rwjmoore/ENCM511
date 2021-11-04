@@ -11,12 +11,13 @@
 #include "ADC.h"
 
 uint16_t counter = 0;
-uint16_t average = 0;
+double average = 0;
 uint16_t ADCValue = 0;
 
 void IOCheck()
 {
-    if (counter < 1000)
+    int total_samples = 1000;
+    if (counter < total_samples)
     {   
         ADCValue = do_ADC();
         Delay_ms(1);
@@ -27,16 +28,20 @@ void IOCheck()
     else
     {
         Disp2String("\n");
-        Disp2String("...ADC.Value.=.");
+        Disp2String("\r\n...ADC.Value=");
         Disp2Dec(ADCValue);
-        Disp2String("...Average.=.");
+        Disp2String("\r\n...Average=");
         Disp2Dec(average);
-        uint16_t val = average / 1000;
+        double val = average / total_samples;
         /*while (val)
         {
             Disp2String("o");
         }*/
         counter = 0;
+        average = 0;
+        
+        // Range of ADC Values: Based on testing, the ADC values goes from 0-1015
+        //Max length of barchart is 
     }
     
     

@@ -7,10 +7,29 @@
 
 
 #include "xc.h"
+#include "ADC.h"
+#include "UART2.h"
+
+uint16_t counter = 0;
+double average = 0;
+uint16_t ADCValue = 0;   
+
+void configTimerInterrupt();
+void configTimers();
+
+void ADC_Delay(uint16_t time_ms)
+{
+    configTimerInterrupt();
+    configTimers();
+    
+    T2CONbits.TON = 1; // Start Clock
+    TMR2 = 0; // Timer Cleared
+    PR2 = 16 * time_ms;// PR2 Calculation   
+}
 
 uint16_t do_ADC(void)
 {
-    uint16_t ADCvalue ; // 16 bit register used to hold ADC converted digital output ADC1BUF0
+    uint16_t ADCValue ; // 16 bit register used to hold ADC converted digital output ADC1BUF0
 
     /* ------------- ADC INITIALIZATION ------------------*/
 
@@ -52,8 +71,37 @@ uint16_t do_ADC(void)
     while(AD1CON1bits.DONE==0)
     {}
     
-    ADCvalue = ADC1BUF0; // ADC output is stored in ADC1BUF0 as this point
+    ADCValue = ADC1BUF0; // ADC output is stored in ADC1BUF0 as this point
+    
+    int total_samples = 1000;
+    if (counter < total_samples)
+    {   
+        ADCValue = do_ADC();
+        //Delay_ms(1);
+
+        average += ADCValue  * 3.25 / 1024;
+        counter++;
+    }
+    else
+    {
+        Disp2String("\n");
+        Disp2String("\r\n...ADC.Value=");
+        Disp2Dec(ADCValue);
+        Disp2String("\r\n...Average=");
+        Disp2Dec(average);
+        /*double val = average / total_samples;
+        while (val)
+        {
+            Disp2String("o");
+        }*/
+        counter = 0;
+        average = 0;
+
+        // Range of ADC Values: Based on testing, the ADC values goes from 0-1015
+        //Max length of barchart is 
+    }
+    
     AD1CON1bits.SAMP=0; //Stop sampling
     AD1CON1bits.ADON=0; //Turn off ADC, ADC value stored in ADC1BUF0;
-    return (ADCvalue); //returns 10 bit ADC output stored in ADC1BIF0 to calling function
+    return (ADCValue); //returns 10 bit ADC output stored in ADC1BIF0 to calling function
 }

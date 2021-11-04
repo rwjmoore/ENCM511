@@ -11,4 +11,4 @@
 #include "TimeDelay.h"
 
 void IOinit();
-void IOCheck();
+int IOCheck();

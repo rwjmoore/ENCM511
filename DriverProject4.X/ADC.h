@@ -33,6 +33,7 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.
 
+void ADC_Delay(uint16_t time_ms);
 uint16_t do_ADC(void);
 
 // TODO Insert appropriate #include <>

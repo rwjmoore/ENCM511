@@ -9,58 +9,30 @@
 #include "TimeDelay.h"
 #include "UART2.h"
 #include "ADC.h"
-
-uint16_t counter = 0;
-double average = 0;
-uint16_t ADCValue = 0;
-
-void IOCheck()
+    
+int IOCheck()
 {
-    int total_samples = 1000;
-    if (counter < total_samples)
-    {   
-        ADCValue = do_ADC();
-        Delay_ms(1);
-       
-        average += ADCValue  * 3.25 / 1024;
-        counter++;
-    }
-    else
-    {
-        Disp2String("\n");
-        Disp2String("\r\n...ADC.Value=");
-        Disp2Dec(ADCValue);
-        Disp2String("\r\n...Average=");
-        Disp2Dec(average);
-        double val = average / total_samples;
-        /*while (val)
-        {
-            Disp2String("o");
-        }*/
-        counter = 0;
-        average = 0;
-        
-        // Range of ADC Values: Based on testing, the ADC values goes from 0-1015
-        //Max length of barchart is 
-    }
-    
-    
-    
-    
-    
+    int buttonPressed = 1;
     
     if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // PB1 (RA2) is pressed
     {
         LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+        buttonPressed = 0;
     }
     else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1) // PB2 (RA4) is pressed
     {
         LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+        buttonPressed = 0;
     }
     else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0) // PB3 (RB4) is pressed
     {
         LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+        buttonPressed = 0;
     }
+    
+    if (buttonPressed == 1) LATBbits.LATB8 = 0;
+    
+    return buttonPressed;
 }
 
 void IOinit()

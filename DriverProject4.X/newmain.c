@@ -14,6 +14,7 @@
 #include "xc.h"
 #include "IOs.h"
 #include "TimeDelay.h"
+#include "ADC.h"
 #include "UART2.h"
 
 /*
@@ -28,29 +29,43 @@
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void);
 void Delay_ms(uint16_t time_ms);
 void DebounceButtons();
+void ADC_Delay(uint16_t);
+uint16_t do_ADC();
 
 int Timer2Flag = 0; // Global Timer Flag Variable
-int check = 0;
+int ADC10SecFlag = 1;
 
 int main(void) // *ASK!!!: How to read and debug variables*
 {
     IOinit();
-    NewClk(8);
-    
+    NewClk(32);
+        
     while(1)
     {
-        // Button Debouncing:
-        DebounceButtons();
+        if(ADC10SecFlag)
+        {
+            // Button Debouncing:
+            DebounceButtons();
             
-        IOCheck();
-    } 
+            ADC10SecFlag = IOCheck();
+        }
+        else
+        {
+            Delay_ms(10000);
+            while (!ADC10SecFlag)
+            {
+                do_ADC();
+            }
+
+            //Disp2String("\n\rFlag:");
+            //Disp2Dec(1);
+        }       
+        
+        Disp2String("\r\nFlag: ");
+        Disp2Dec(ADC10SecFlag);
+    }
     return 0;
 }
-
-
-
-
-
 
 void DebounceButtons()
 {
@@ -106,5 +121,6 @@ void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
     IFS0bits.T2IF = 0; // Clear Timer 2 Flag
     T2CONbits.TON = 0; // Stops Timer
     Timer2Flag = 1; // Global Flag
-    check = 4;
+    ADC10SecFlag = 0;
+    TMR2 = 0;
 }

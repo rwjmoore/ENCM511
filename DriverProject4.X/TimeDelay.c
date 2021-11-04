@@ -45,7 +45,7 @@ void NewClk(unsigned int clkval)
      SRbits.IPL = 0;  //enable interrupts
 }
 
-void Delay_ms(uint16_t time_ms)
+void Delay_ms(uint32_t time_ms)
 {
     configTimerInterrupt();
     configTimers();

@@ -62,7 +62,7 @@ void Delay_ms(uint32_t time_ms)
 void configTimerInterrupt()
 {
     // Timer Interrupts Setups:
-    IPC1bits.T2IP = 7; // Interrupt Priority set to 7
+    IPC1bits.T2IP = 3; // Interrupt Priority set to 7
     
     IEC0bits.T2IE = 1; // Enable Interrupt - Register 0
     IFS0bits.T2IF = 0; // Interrupt Flag Status Register Cleared

@@ -29,12 +29,12 @@
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void);
 void Delay_ms(uint16_t time_ms);
 void DebounceButtons();
-void ADC_Delay(uint16_t);
 uint16_t do_ADC();
-uint16_t collectSamples();
+void collectSamples();
+uint16_t getAverage();
+void reset();
 
 int Timer2Flag = 0; // Global Timer Flag Variable
-int ADC10SecFlag = 1;
 
 int main(void) // *ASK!!!: How to read and debug variables*
 {
@@ -52,18 +52,20 @@ int main(void) // *ASK!!!: How to read and debug variables*
         }
         else
         {
+            reset();
             Disp2String("\r\n\nStarting Sampling: \n");
             
-            int i;
-            for (i = 0; i < 10; i++)
+            int j;
+            for (j = 0; j < 10; j++)
             {
-                do_ADC();
-                uint16_t average = collectSamples();
-                Disp2String("\rADC Average Output: ");
-                Disp2Dec(average);
-                Delay_ms(1000);
+                while (average == 0)
+                {
+                    do_ADC();
+                    collectSamples();
+                }
+                Disp2String("\r\nADC Average Output: ");
+                Disp2Dec(getAverage());
             }
-            ADC10SecFlag = 1;
         }       
         
         Disp2String("\r\n\nFlag: ");

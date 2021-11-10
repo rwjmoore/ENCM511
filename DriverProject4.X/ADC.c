@@ -10,23 +10,17 @@
 #include "ADC.h"
 #include "UART2.h"
 
+uint64_t sampleOutput = 0;
 uint16_t counter = 0;
-double average = 0;
-uint16_t ADCValue = 0;   
+uint16_t ADCValue = 0;  
 
 void configTimerInterrupt();
 void configTimers();
-uint16_t collectSamples();
+void collectSamples();
+void configADCInterrupt();
+uint16_t getAverage();
 
-void ADC_Delay(uint16_t time_ms)
-{
-    configTimerInterrupt();
-    configTimers();
-    
-    T2CONbits.TON = 1; // Start Clock
-    TMR2 = 0; // Timer Cleared
-    PR2 = 16 * time_ms;// PR2 Calculation   
-}
+void __attribute__((interrupt, no_auto_psv))_ADC1Interrupt(void);
 
 uint16_t do_ADC(void)
 {
@@ -52,11 +46,11 @@ uint16_t do_ADC(void)
     AD1CON2bits.ALTS = 0; // Make sure to use MUX A input setting
     
     //Configure the ADC?s sample time by setting bits in AD1CON3
-    /* * */ AD1CON3bits.ADRC = 0; // System Clock - A/D Conversion Clock Source Bit
+    AD1CON3bits.ADRC = 0; // System Clock - A/D Conversion Clock Source Bit
     AD1CON3bits.SAMC = 0b10000; // 31 TAD - Auto Sample Time Bits
     AD1CON3bits.ADCS = 1;  
-    // ADD CODE // Ensure sample time is 1/10th of signal being sampled
-    // ADD CODE // Select and configure ADC input as shown in slides 18-20
+    // Ensure sample time is 1/10th of signal being sampled
+    // Select and configure ADC input as shown in slides 18-20
     
     AD1CHSbits.CH0NA = 0; // Channel 0 negative input select for MUX A
     AD1CHSbits.CH0SA = 0b0101; // Channel 0 positive input select for MUX A
@@ -70,53 +64,73 @@ uint16_t do_ADC(void)
     
     AD1CON1bits.SAMP=0; //Stop sampling
     AD1CON1bits.ADON=0; //Turn off ADC, ADC value stored in ADC1BUF0;
-    Disp2String("\r\nADC Set Up Complete!");
+    //Disp2String("\r\nADC Set Up Complete!");
     return (ADCValue); //returns 10 bit ADC output stored in ADC1BIF0 to calling function
 }
 
-uint16_t collectSamples()
+void collectSamples()
 {
+    configADCInterrupt();
+    
     AD1CON1bits.ADON = 1; // turn on ADC module
     AD1CON1bits.ASAM = 0;
-    uint16_t sampleOutput = 0;
     AD1CON1bits.SAMP=1; //Start Sampling, Conversion starts automatically after SSRC and SAMC settings
-    while(AD1CON1bits.DONE==0)
+    while(AD1CON1bits.DONE == 0)
     {
-        sampleOutput += ADC1BUF0; // ADC output is stored in ADC1BUF0 as this point
-    } 
-    AD1CON1bits.SAMP=0;
-    
-    uint16_t average = sampleOutput / 1000;
-    
-    AD1CON1bits.ADON = 0; // turn on ADC module
-    
-    return average;
-    
-    /*int total_samples = 1000;
-    if (counter < total_samples)
-    {   
-        ADCValue = do_ADC();
-        //Delay_ms(1);
+        Nop();
+    }
+}
 
-        average += ADCValue  * 3.25 / 1024;
+void configADCInterrupt()
+{
+    // Timer Interrupts Setups:
+    IPC3bits.AD1IP = 7; // Interrupt Priority set to 7
+    
+    IEC0bits.AD1IE = 1; // Enable Interrupt
+    IFS0bits.AD1IF = 0; // Interrupt Flag Status Register Cleared
+}
+
+void __attribute__((interrupt, no_auto_psv))_ADC1Interrupt(void)
+{
+    if (counter < 1000)
+    {
+        /*Disp2String("\r\nCounter: ");
+        Disp2Dec(counter);
+        Disp2String("\n\n");*/
+        IFS0bits.AD1IF = 0; // Clear Flag
+
+        sampleOutput += ADC1BUF0; // ADC output is stored in ADC1BUF0 as this point
+        
         counter++;
+        /*Disp2String("\rDone!");
+        Disp2String("\n\n");*/
     }
     else
     {
-        Disp2String("\n");
-        Disp2String("\r\n...ADC.Value=");
-        Disp2Dec(ADCValue);
-        Disp2String("\r\n...Average=");
-        Disp2Dec(average);
-        double val = average // total_samples;
-        while (val)
-        {
-            Disp2String("o");
-        }
-        counter = 0;
-        average = 0;
-
-        // Range of ADC Values: Based on testing, the ADC values goes from 0-1015
-        //Max length of barchart is 
-    }*/
+        Disp2String("\r\nText Check 2!\n");
+        
+        // Return new Average:
+        average = sampleOutput / 1000;
+        AD1CON1bits.ADON = 0; // turn off ADC module
+        AD1CON1bits.SAMP=0; // Stop Sampling
+        counter = 0; // Reset counter
+        
+        Disp2String("\r\nADC Average Output: ");
+        Disp2Dec(getAverage());
+    }
 }
+
+uint16_t getAverage()
+{
+    return average;
+}
+
+void reset()
+{
+    AD1CON1bits.ADON = 1; // turn on ADC module
+    AD1CON1bits.SAMP=1; // Start Sampling
+    sampleOutput = 0;
+    counter = 0;
+    average = 0;
+}
+

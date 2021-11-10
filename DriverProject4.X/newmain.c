@@ -31,6 +31,7 @@ void Delay_ms(uint16_t time_ms);
 void DebounceButtons();
 void ADC_Delay(uint16_t);
 uint16_t do_ADC();
+uint16_t collectSamples();
 
 int Timer2Flag = 0; // Global Timer Flag Variable
 int ADC10SecFlag = 1;
@@ -51,17 +52,21 @@ int main(void) // *ASK!!!: How to read and debug variables*
         }
         else
         {
-            Delay_ms(10000);
-            while (!ADC10SecFlag)
+            Disp2String("\r\n\nStarting Sampling: \n");
+            
+            int i;
+            for (i = 0; i < 10; i++)
             {
                 do_ADC();
+                uint16_t average = collectSamples();
+                Disp2String("\rADC Average Output: ");
+                Disp2Dec(average);
+                Delay_ms(1000);
             }
-
-            //Disp2String("\n\rFlag:");
-            //Disp2Dec(1);
+            ADC10SecFlag = 1;
         }       
         
-        Disp2String("\r\nFlag: ");
+        Disp2String("\r\n\nFlag: ");
         Disp2Dec(ADC10SecFlag);
     }
     return 0;

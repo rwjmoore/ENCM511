@@ -16,6 +16,7 @@ uint16_t ADCValue = 0;
 
 void configTimerInterrupt();
 void configTimers();
+uint16_t collectSamples();
 
 void ADC_Delay(uint16_t time_ms)
 {
@@ -52,8 +53,8 @@ uint16_t do_ADC(void)
     
     //Configure the ADC?s sample time by setting bits in AD1CON3
     /* * */ AD1CON3bits.ADRC = 0; // System Clock - A/D Conversion Clock Source Bit
-    AD1CON3bits.SAMC = 0b11111; // 31 TAD - Auto Sample Time Bits
-    //AD1CON3bits.ADCS = 0;  
+    AD1CON3bits.SAMC = 0b10000; // 31 TAD - Auto Sample Time Bits
+    AD1CON3bits.ADCS = 1;  
     // ADD CODE // Ensure sample time is 1/10th of signal being sampled
     // ADD CODE // Select and configure ADC input as shown in slides 18-20
     
@@ -62,18 +63,36 @@ uint16_t do_ADC(void)
     
     AD1PCFGbits.PCFG5 = 0; // Sets pin to Analog Mode
     AD1CSSL = 0;
-    
-    
         
 /* ------------- ADC SAMPLING AND CONVERSION ------------------*/
-
-    AD1CON1bits.SAMP=1; //Start Sampling, Conversion starts automatically after SSRC and SAMC settings
-    while(AD1CON1bits.DONE==0)
-    {}
     
     ADCValue = ADC1BUF0; // ADC output is stored in ADC1BUF0 as this point
     
-    int total_samples = 1000;
+    AD1CON1bits.SAMP=0; //Stop sampling
+    AD1CON1bits.ADON=0; //Turn off ADC, ADC value stored in ADC1BUF0;
+    Disp2String("\r\nADC Set Up Complete!");
+    return (ADCValue); //returns 10 bit ADC output stored in ADC1BIF0 to calling function
+}
+
+uint16_t collectSamples()
+{
+    AD1CON1bits.ADON = 1; // turn on ADC module
+    AD1CON1bits.ASAM = 0;
+    uint16_t sampleOutput = 0;
+    AD1CON1bits.SAMP=1; //Start Sampling, Conversion starts automatically after SSRC and SAMC settings
+    while(AD1CON1bits.DONE==0)
+    {
+        sampleOutput += ADC1BUF0; // ADC output is stored in ADC1BUF0 as this point
+    } 
+    AD1CON1bits.SAMP=0;
+    
+    uint16_t average = sampleOutput / 1000;
+    
+    AD1CON1bits.ADON = 0; // turn on ADC module
+    
+    return average;
+    
+    /*int total_samples = 1000;
     if (counter < total_samples)
     {   
         ADCValue = do_ADC();
@@ -89,19 +108,15 @@ uint16_t do_ADC(void)
         Disp2Dec(ADCValue);
         Disp2String("\r\n...Average=");
         Disp2Dec(average);
-        /*double val = average / total_samples;
+        double val = average // total_samples;
         while (val)
         {
             Disp2String("o");
-        }*/
+        }
         counter = 0;
         average = 0;
 
         // Range of ADC Values: Based on testing, the ADC values goes from 0-1015
         //Max length of barchart is 
-    }
-    
-    AD1CON1bits.SAMP=0; //Stop sampling
-    AD1CON1bits.ADON=0; //Turn off ADC, ADC value stored in ADC1BUF0;
-    return (ADCValue); //returns 10 bit ADC output stored in ADC1BIF0 to calling function
+    }*/
 }

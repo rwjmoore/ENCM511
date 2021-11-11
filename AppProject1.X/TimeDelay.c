@@ -47,16 +47,17 @@ void NewClk(unsigned int clkval)
 
 void Delay_ms(uint32_t time_ms)
 {
+    NewClk(32);
     configTimerInterrupt();
     configTimers();
-    
-    T2CONbits.TON = 1; // Start Clock
     TMR2 = 0; // Timer Cleared
     PR2 = 16 * time_ms;// PR2 Calculation
+    T2CONbits.TON = 1; // Start Clock
+    
     Idle(); //Idle until a interrupt is handled
     T2CONbits.TON = 0; //Turn off clock
     TMR2 = 0;
-    
+    NewClk(8);
 }
 
 void configTimerInterrupt()
@@ -75,4 +76,6 @@ void configTimers()
     T2CONbits.T32 = 0; // Timer2 acts as a 16-bit timer
     T2CONbits.TCS = 0; // Use Internal Clock
     T2CONbits.TCKPS = 3; // Sets Pre-scaler to 11
+    //T2CONbits.TCKPS = 0b00; // Sets Pre-scaler to 1:1
+
 }

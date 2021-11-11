@@ -8,30 +8,67 @@
 #include <p24F16KA101.h>
 #include "TimeDelay.h"
 #include "UART2.h"
-    
+
+
+
 int IOCheck()
-{
-    int buttonPressed = 1;
+{//Checks which pushbuttons are pressed and returns the value of the one that is
     
+//returns the following based on this lookup table
+    /* 
+     None Pressed = 0 
+     PB1 Pressed = 1
+     PB2 Pressed = 2
+     PB3 Pressed = 3
+     Any combination = 0 
+     
+     */
     if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // PB1 (RA2) is pressed
     {
-        LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
-        buttonPressed = 0;
+        //Disp2String("\rPB1_is_pressed");
+        return 1;
     }
     else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1) // PB2 (RA4) is pressed
     {
-        LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
-        buttonPressed = 0;
+        //Disp2String("\rPB3_is_pressed");
+        return 3;
     }
     else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0) // PB3 (RB4) is pressed
     {
-        LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
-        buttonPressed = 0;
+        //Disp2String("\rPB2_is_pressed");
+        return 2;
     }
+    else if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 0) // 3 buttons pressed
+    {
+        Disp2String("\rAll_PBs_pressed");
+        return 0;
+    }
+    else if (PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // No buttons pressed
+    {        
+        //Disp2String("\rNothing_pressed"); COMMENTED THIS OUT FOR "DEBOUNCING EFFECT"
+        //Get our state to return to IDLE
+        return 0; //let's us check that the button has been released
+    }
+    else // 2 Buttons pressed
+    {
+        if (PORTBbits.RB4 == 1)
+        {
+            Disp2String("\rPB1_and_PB2_are_pressed"); 
+            return 0;
+        }
+        else if(PORTAbits.RA4 == 1)
+        {
+            Disp2String("\rPB1_and_PB3_are_pressed");
+            return 0;
+        }
+        else if(PORTAbits.RA2 == 1)
+        {
+            Disp2String("\rPB2_and_PB3_are_pressed");
+            return 0;
+        }
+    }
+    return 0;
     
-    if (buttonPressed == 1) LATBbits.LATB8 = 0;
-    
-    return buttonPressed;
 }
 
 void IOinit()
@@ -41,7 +78,6 @@ void IOinit()
     
     // Inputs:
     TRISAbits.TRISA2 = 1; // Makes GPIO RA2 a digital input
-    TRISAbits.TRISA3 = 1; // Makes POT Bit RA3 a digital input
     TRISAbits.TRISA4 = 1; // Makes GPIO RA4 a digital input
     TRISBbits.TRISB4 = 1; // Makes GPIO RB4 a digital input
             
@@ -58,3 +94,4 @@ void IOinit()
     
     LATBbits.LATB8 = 0;
 }
+

@@ -45,25 +45,27 @@ int IOCheck()
     }
     else if (PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // No buttons pressed
     {        
-        //Disp2String("\rNothing_pressed"); COMMENTED THIS OUT FOR "DEBOUNCING EFFECT"
+        //Disp2String("\rNothing_pressed"); 
         //Get our state to return to IDLE
+        
+        
         return 0; //let's us check that the button has been released
     }
     else // 2 Buttons pressed
     {
         if (PORTBbits.RB4 == 1)
         {
-            Disp2String("\rPB1_and_PB2_are_pressed"); 
+            //Disp2String("\rPB1_and_PB2_are_pressed"); 
             return 0;
         }
         else if(PORTAbits.RA4 == 1)
         {
-            Disp2String("\rPB1_and_PB3_are_pressed");
+            //Disp2String("\rPB1_and_PB3_are_pressed");
             return 0;
         }
         else if(PORTAbits.RA2 == 1)
         {
-            Disp2String("\rPB2_and_PB3_are_pressed");
+            //Disp2String("\rPB2_and_PB3_are_pressed");
             return 0;
         }
     }

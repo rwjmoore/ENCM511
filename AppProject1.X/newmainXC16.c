@@ -13,6 +13,7 @@
 #include <xc.h>
 #include <p24F16KA101.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "xc.h"
 #include "IOs.h"
@@ -25,7 +26,10 @@
 #define sleep 0 
 #define setMinutes 1
 #define setSeconds 2
-#define COUNTDOWN 3
+#define PB3 3
+#define RESET 4
+#define shortPress 6
+#define COUNTDOWN 7
 
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void); //Interrupt for Timer2
 void Delay_ms(uint16_t time_ms);
@@ -33,10 +37,18 @@ void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void); //CN Interrupt (
 void DebounceButtons();
 void Display();
 
-int mode = 0; //start in sleep mode
-int minutes = 0;
+int mode = 0; //states of the code
+int prevMode = 0;
+
+//stopwatch variables
+int minutes = 0; 
 int seconds = 0;
 
+//Toggling Flags
+int waitingFlag = 0; //to indicate if we are waiting for the 3 second PB3 press to be completed
+bool countDownToggle = false; //toggles between countdown and pause depending on PB3 short press --> 0 for 
+
+//Display variables
 char tempmins[2] = ""; //holds temporary strings for formatting
 char tempsecs[2] = "";
 
@@ -64,7 +76,7 @@ int main(void) {
                 else
                     minutes++;
                 Display();
-                Delay_ms(100);
+                Delay_ms(150);
                 break;
             
             case setSeconds:
@@ -78,19 +90,63 @@ int main(void) {
                 Delay_ms(100);
                 break;
                 
-            case COUNTDOWN:
-                //short press on PB3 starts or pauses the countdown 
+            case PB3: //goes into this state when PB3 pressed to config timer. If waitingFlag is still 1 by the time the delay is over, button was pressed for 3 seconds
+                waitingFlag = 1; 
+                Delay_ms(3000); //let's other code execute while waiting
+                if (waitingFlag == 1){
+                    waitingFlag =0;
+                    mode =  RESET; //go clear the counter
+                    prevMode = PB3;
+                }
+                
+                else {
+                    mode = shortPress; // when waitingFlag = 0, the CN interrupt was called meaning button was let go 
+                    prevMode = PB3;
+                }
                 //long press stops the countdown and resets the timer to 0 
-                //LED blinks at 1 sec interval 
                 //when countdown is complete LED stays ON and displays specific message
                 break;
                 
-            case sleep:
-                //Disp2String("\r               ");
-                //Display();
+            case shortPress: //this handles short button presses --> toggle between pause and start countdown
                 
-                //idle state, where clock speed is reduced and we display minutes
+                countDownToggle = !countDownToggle;
+                if (countDownToggle)
+                    mode = COUNTDOWN;
+                else
+                    mode = sleep;
+                prevMode = shortPress;
+                // in countdown, LED must blink at 1 sec interval
                 break;
+            
+            case COUNTDOWN:
+                seconds--;
+                if(seconds <0 ){
+                    seconds = 59;
+                    minutes--;
+                }
+                Display();
+                Delay_ms(1000);
+                //LED BLINK
+                break;
+                
+           
+                
+                
+            case sleep: //idle state, where clock speed is reduced and we display minutes
+                if (prevMode!=mode){
+                    Display();
+                    prevMode = 0;
+                }
+                
+                break;
+                
+            case RESET:
+                //sets minutes and seconds to 0 
+                minutes = 0; 
+                seconds = 0; 
+                mode = sleep;
+                prevMode = RESET;
+                
         }
         
         
@@ -102,22 +158,22 @@ int main(void) {
 
 void Display(){
     //PURPOSE: To display the stopwatch minutes and seconds in the form 00m:00s
+    //It does so by formatting all information into a single string
     strcpy(tempmins, ""); //clear temporary variables
     strcpy(tempsecs, "");
 
-
-    //int sprintf(char *strValue, const char *format, [arg1, arg2, ... ]);
-    sprintf(tempmins, "%d", minutes);
+    sprintf(tempmins, "%d", minutes); //convert integer to string
     strcat(display, tempmins);
     strcat(display, "m");
 
     strcat(display, ":");
-    sprintf(tempsecs, "%d", seconds);
+    
+    sprintf(tempsecs, "%d", seconds);//convert integer to string
     strcat(display, tempsecs);
-    strcat(display, "s");
+    strcat(display, "s   ");
 
     Disp2String(display);
-    strcpy(display, "\r");
+    strcpy(display, "\r"); //clears the display variable by setting it only equal to "\r"
     
 }
 
@@ -126,16 +182,16 @@ void Display(){
 void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void){ 
     if(IFS1bits.CNIF == 1) //if the flag is set, means IO changed 
     {
-        
-        DebounceButtons();
-        
-
+        prevMode = mode;
         mode = IOCheck();
-        //Disp2String("IO CheckDone");
+        if (mode == 0 && waitingFlag ==1){
+           //this means button press let go before 3 seconds
+            prevMode = PB3;
+            mode =  shortPress;
+            waitingFlag = 0;
+        }
     }
     IFS1bits.CNIF = 0; //setting the interrupt flag back to 0 
-
-
     Nop(); //Apparently does nothing, but reserves space for delay or execution of other code
     
 } 

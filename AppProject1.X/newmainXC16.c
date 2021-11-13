@@ -30,6 +30,7 @@
 #define RESET 4
 #define shortPress 6
 #define COUNTDOWN 7
+#define ALARM 8
 
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void); //Interrupt for Timer2
 void Delay_ms(uint16_t time_ms);
@@ -47,11 +48,11 @@ int seconds = 0;
 //Toggling Flags
 int waitingFlag = 0; //to indicate if we are waiting for the 3 second PB3 press to be completed
 bool countDownToggle = false; //toggles between countdown and pause depending on PB3 short press --> 0 for 
+int LEDFlag = 0;
 
 //Display variables
 char tempmins[2] = ""; //holds temporary strings for formatting
 char tempsecs[2] = "";
-
 char display[19] = "\r";
 
 int main(void) {
@@ -124,13 +125,19 @@ int main(void) {
                     seconds = 59;
                     minutes--;
                 }
+                
+                else if(seconds == 0 && minutes == 0){
+                    mode = ALARM;
+                    prevMode = COUNTDOWN;
+                    break;
+                }
+                
                 Display();
+                LEDFlag = 1-LEDFlag; //will switch between 1 and 0 
+                LATBbits.LATB8 = LEDFlag; // Turns ON LED connected to port RB8
                 Delay_ms(1000);
                 //LED BLINK
                 break;
-                
-           
-                
                 
             case sleep: //idle state, where clock speed is reduced and we display minutes
                 if (prevMode!=mode){
@@ -144,8 +151,18 @@ int main(void) {
                 //sets minutes and seconds to 0 
                 minutes = 0; 
                 seconds = 0; 
-                mode = sleep;
                 prevMode = RESET;
+                mode = sleep;
+                
+            case ALARM:
+                // display alarm message 
+                LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+                if (prevMode != mode){
+                    Display(); 
+                    Disp2String("-- ALARM");
+                }
+          
+                break;
                 
         }
         
@@ -191,6 +208,8 @@ void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void){
             waitingFlag = 0;
         }
     }
+    LATBbits.LATB8 = 0; // Turns off LED connected to port RB8
+
     IFS1bits.CNIF = 0; //setting the interrupt flag back to 0 
     Nop(); //Apparently does nothing, but reserves space for delay or execution of other code
     

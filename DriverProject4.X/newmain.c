@@ -30,6 +30,7 @@ void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void);
 void Delay_ms(uint16_t time_ms);
 void DebounceButtons();
 void ADC_Delay(uint16_t);
+void DiplayBar(uint64_t val);
 uint16_t do_ADC();
 uint16_t collectSamples();
 
@@ -58,9 +59,12 @@ int main(void) // *ASK!!!: How to read and debug variables*
             for (i = 0; i < 10; i++)
             {
                 do_ADC();
-                uint16_t average = collectSamples();
+                uint64_t average = collectSamples();
                 Disp2String("\rADC Average Output: ");
                 Disp2Dec(average);
+                
+                Disp2String("...");
+                DiplayBar(average);
                 Delay_ms(1000);
             }
             ADC10SecFlag = 1;
@@ -128,4 +132,19 @@ void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
     Timer2Flag = 1; // Global Flag
     ADC10SecFlag = 0;
     TMR2 = 0;
+}
+
+void DiplayBar(uint64_t val)
+{
+    int i = 0;
+    // Bar Elements:
+    for (i = 0; i < val; i++)
+    {
+        Disp2String("[*]");
+    }
+    // White Space:
+    for (i = i; i < 7; i++)
+    {
+        Disp2String("...");
+    }
 }

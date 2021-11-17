@@ -16,7 +16,7 @@ uint16_t ADCValue = 0;
 
 void configTimerInterrupt();
 void configTimers();
-uint16_t collectSamples();
+uint64_t collectSamples();
 
 void ADC_Delay(uint16_t time_ms)
 {
@@ -70,15 +70,15 @@ uint16_t do_ADC(void)
     
     AD1CON1bits.SAMP=0; //Stop sampling
     AD1CON1bits.ADON=0; //Turn off ADC, ADC value stored in ADC1BUF0;
-    Disp2String("\r\nADC Set Up Complete!");
+    //Disp2String("\r\nADC Set Up Complete!");
     return (ADCValue); //returns 10 bit ADC output stored in ADC1BIF0 to calling function
 }
 
-uint16_t collectSamples()
+uint64_t collectSamples()
 {
     AD1CON1bits.ADON = 1; // turn on ADC module
     AD1CON1bits.ASAM = 0;
-    uint16_t sampleOutput = 0;
+    uint64_t sampleOutput = 0;
     AD1CON1bits.SAMP=1; //Start Sampling, Conversion starts automatically after SSRC and SAMC settings
     while(AD1CON1bits.DONE==0)
     {
@@ -86,7 +86,7 @@ uint16_t collectSamples()
     } 
     AD1CON1bits.SAMP=0;
     
-    uint16_t average = sampleOutput / 1000;
+    uint64_t average = sampleOutput / 1000;
     
     AD1CON1bits.ADON = 0; // turn on ADC module
     

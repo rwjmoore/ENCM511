@@ -18,6 +18,7 @@ void configTimerInterrupt();
 void configTimers();
 uint64_t collectSamples();
 
+//
 void ADC_Delay(uint16_t time_ms)
 {
     configTimerInterrupt();

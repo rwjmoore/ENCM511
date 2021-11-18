@@ -20,7 +20,7 @@
 /*
  * 
  */
-
+//
 /* How to use debug (view variables) 
  Specifically PR2 calculation 
  * time gate accumulation
@@ -52,7 +52,7 @@ int main(void) // *ASK!!!: How to read and debug variables*
         }
         else
         {
-            Disp2String("\r\nStarting Sampling:");
+            Disp2String("\n\n");
             
             int i;
             for (i = 0; i < 10; i++)
@@ -70,8 +70,8 @@ int main(void) // *ASK!!!: How to read and debug variables*
             ADC10SecFlag = 1;
         }       
         
-        Disp2String("\r\n\nFlag: ");
-        Disp2Dec(ADC10SecFlag);
+        /*Disp2String("\r\n\nFlag: ");
+        Disp2Dec(ADC10SecFlag);*/
     }
     return 0;
 }

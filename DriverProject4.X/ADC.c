@@ -4,7 +4,7 @@
  *
  * Created on November 2, 2021, 3:55 PM
  */
-
+//
 
 #include "xc.h"
 #include "ADC.h"
@@ -78,45 +78,27 @@ uint64_t collectSamples()
 {
     AD1CON1bits.ADON = 1; // turn on ADC module
     AD1CON1bits.ASAM = 0;
-    uint64_t sampleOutput = 0;
     AD1CON1bits.SAMP=1; //Start Sampling, Conversion starts automatically after SSRC and SAMC settings
     while(AD1CON1bits.DONE==0)
     {
-        sampleOutput += ADC1BUF0; // ADC output is stored in ADC1BUF0 as this point
-    } 
-    AD1CON1bits.SAMP=0;
-    
-    uint64_t average = sampleOutput / 1000;
+    }
     
     AD1CON1bits.ADON = 0; // turn on ADC module
     
-    return average;
-    
-    /*int total_samples = 1000;
-    if (counter < total_samples)
+    counter = 0;
+    average = 0;
+    uint64_t sampleTotal = 0;
+    int total_samples = 1000;
+    while (counter < total_samples)
     {   
         ADCValue = do_ADC();
-        //Delay_ms(1);
-
-        average += ADCValue  * 3.25 / 1024;
+        sampleTotal += ADC1BUF0;//  * 3.25 / 1024;
         counter++;
     }
-    else
-    {
-        Disp2String("\n");
-        Disp2String("\r\n...ADC.Value=");
-        Disp2Dec(ADCValue);
-        Disp2String("\r\n...Average=");
-        Disp2Dec(average);
-        double val = average // total_samples;
-        while (val)
-        {
-            Disp2String("o");
-        }
-        counter = 0;
-        average = 0;
-
-        // Range of ADC Values: Based on testing, the ADC values goes from 0-1015
-        //Max length of barchart is 
-    }*/
+    sampleTotal /= 1000;
+    average = sampleTotal;
+    
+    AD1CON1bits.SAMP=0;
+    
+    return average;
 }

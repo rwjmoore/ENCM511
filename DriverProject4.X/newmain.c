@@ -4,7 +4,7 @@
  *
  * Created on October 5, 2021, 3:11 PM
  */
-
+//
 #define Idle() {__asm__ volatile ("pwrsav #1");}    //Idle() - put MCU in idle mode - only CPU off
 
 #include <stdio.h>
@@ -32,10 +32,10 @@ void DebounceButtons();
 void ADC_Delay(uint16_t);
 void DiplayBar(uint64_t val);
 uint16_t do_ADC();
-uint16_t collectSamples();
+uint64_t collectSamples();
 
-int Timer2Flag = 0; // Global Timer Flag Variable
 int ADC10SecFlag = 1;
+int Timer2Flag = 0; // Global Timer Flag Variable
 
 int main(void) // *ASK!!!: How to read and debug variables*
 {
@@ -48,18 +48,18 @@ int main(void) // *ASK!!!: How to read and debug variables*
         {
             // Button Debouncing:
             DebounceButtons();
-            
             ADC10SecFlag = IOCheck();
         }
         else
         {
-            Disp2String("\r\n\nStarting Sampling: \n");
+            Disp2String("\r\nStarting Sampling:");
             
             int i;
             for (i = 0; i < 10; i++)
             {
                 do_ADC();
                 uint64_t average = collectSamples();
+                
                 Disp2String("\rADC Average Output: ");
                 Disp2Dec(average);
                 
@@ -138,12 +138,12 @@ void DiplayBar(uint64_t val)
 {
     int i = 0;
     // Bar Elements:
-    for (i = 0; i < val; i++)
+    for (i = 0; i < val; i+=50)
     {
         Disp2String("[*]");
     }
     // White Space:
-    for (i = i; i < 7; i++)
+    for (i = i; i < 22*50; i+=50)
     {
         Disp2String("...");
     }

@@ -12,11 +12,11 @@
 
 
 int IOCheck()
-{//Checks which pushbuttons are pressed and returns the value of the one that is
+{//Checks which pushbuttons are pressed and returns the value of the one that is pressed
     
 //returns the following based on this lookup table
     /* 
-     None Pressed = 0 
+     None Pressed (Or button released) = 0 
      PB1 Pressed = 1
      PB2 Pressed = 2
      PB3 Pressed = 3
@@ -46,7 +46,7 @@ int IOCheck()
     else if (PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // No buttons pressed
     {        
         //Disp2String("\rNothing_pressed"); 
-        //Get our state to return to IDLE
+     
         
         
         return 0; //let's us check that the button has been released

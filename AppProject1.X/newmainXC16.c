@@ -39,7 +39,7 @@ void DebounceButtons();
 void Display();
 
 int mode = 0; //states of the code
-int prevMode = 0;
+int prevMode = 1;
 
 //stopwatch variables
 int minutes = 0; 
@@ -63,7 +63,7 @@ int main(void) {
     IPC4bits.CNIP1 = 1;
     IPC4bits.CNIP2 = 1;
     IFS1bits.CNIF = 0; //clear flag bit for CN interrupt
-    IEC1bits.CNIE = 1; //Input change notificiation interrupt enable bit 
+    IEC1bits.CNIE = 1; //Input change notification interrupt enable bit 
     // ------       Config IO interrupt DONE       ------ //
     while(1){
         
@@ -72,6 +72,8 @@ int main(void) {
             case setMinutes:
                 //increment minute count by 1 min from 0 to 59 and display on PC
                 //Disp2String("In Mode 1=Minutes");
+                
+                Disp2String("                       "); //clear the display
                 if (minutes>=59)
                     minutes = 0;
                 else
@@ -83,18 +85,21 @@ int main(void) {
             case setSeconds:
                 //seconds counter increments by 1 sec from 0 to 59 and display on PC
                 //Disp2String("\rIn Mode 2=Seconds");
+                Disp2String("                       "); //clear the display
+
                 if (seconds>=59)
                     seconds = 0;
                 else
                     seconds++;
                 Display();
-                Delay_ms(100);
+                Delay_ms(150);
                 break;
                 
             case PB3: //goes into this state when PB3 pressed to config timer. If waitingFlag is still 1 by the time the delay is over, button was pressed for 3 seconds
+            
                 waitingFlag = 1; 
-                Delay_ms(3000); //let's other code execute while waiting
-                if (waitingFlag == 1){
+                Delay_ms(3000); //if button is released during the time, CN interrupt is called and will toggle waiting flag
+                if (waitingFlag == 1){ // if waitingFlag = 1 at this point, the CN interrupt was not called
                     waitingFlag =0;
                     mode =  RESET; //go clear the counter
                     prevMode = PB3;
@@ -104,19 +109,15 @@ int main(void) {
                     mode = shortPress; // when waitingFlag = 0, the CN interrupt was called meaning button was let go 
                     prevMode = PB3;
                 }
-                //long press stops the countdown and resets the timer to 0 
-                //when countdown is complete LED stays ON and displays specific message
                 break;
                 
             case shortPress: //this handles short button presses --> toggle between pause and start countdown
-                
                 countDownToggle = !countDownToggle;
                 if (countDownToggle)
                     mode = COUNTDOWN;
                 else
                     mode = sleep;
                 prevMode = shortPress;
-                // in countdown, LED must blink at 1 sec interval
                 break;
             
             case COUNTDOWN:
@@ -142,18 +143,25 @@ int main(void) {
             case sleep: //idle state, where clock speed is reduced and we display minutes
                 if (prevMode!=mode){
                     Display();
+                    NewClk(32);
                     prevMode = 0;
                 }
+                
+                
                 
                 break;
                 
             case RESET:
                 //sets minutes and seconds to 0 
                 minutes = 0; 
-                seconds = 0; 
+                seconds = 0;
+                if (prevMode!=mode){
+                    Display();
                 prevMode = RESET;
-                mode = sleep;
-                
+                }
+                break;
+
+                                
             case ALARM:
                 // display alarm message 
                 LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
@@ -179,13 +187,13 @@ void Display(){
     strcpy(tempmins, ""); //clear temporary variables
     strcpy(tempsecs, "");
 
-    sprintf(tempmins, "%d", minutes); //convert integer to string
+    sprintf(tempmins, "%02d", minutes); //convert integer to string
     strcat(display, tempmins);
     strcat(display, "m");
 
     strcat(display, ":");
     
-    sprintf(tempsecs, "%d", seconds);//convert integer to string
+    sprintf(tempsecs, "%02d", seconds);//convert integer to string
     strcat(display, tempsecs);
     strcat(display, "s   ");
 
@@ -200,7 +208,9 @@ void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void){
     if(IFS1bits.CNIF == 1) //if the flag is set, means IO changed 
     {
         prevMode = mode;
+        DebounceButtons();
         mode = IOCheck();
+        
         if (mode == 0 && waitingFlag ==1){
            //this means button press let go before 3 seconds
             prevMode = PB3;
@@ -266,7 +276,6 @@ void DebounceButtons()
             }
 
             pastResult = result;
-            //Delay_ms(1);
         }
     }
 }

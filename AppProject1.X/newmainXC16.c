@@ -44,6 +44,7 @@ int prevMode = 1;
 //stopwatch variables
 int minutes = 0; 
 int seconds = 0;
+int milliseconds = 0;
 
 //Toggling Flags
 int waitingFlag = 0; //to indicate if we are waiting for the 3 second PB3 press to be completed
@@ -53,6 +54,7 @@ int LEDFlag = 0;
 //Display variables
 char tempmins[2] = ""; //holds temporary strings for formatting
 char tempsecs[2] = "";
+char tempmilli[4] ="";
 char display[19] = "\r";
 
 int main(void) {
@@ -121,22 +123,30 @@ int main(void) {
                 break;
             
             case COUNTDOWN:
-                seconds--;
-                if(seconds <0 ){
+                milliseconds--;
+                if(milliseconds < 0){
+                    milliseconds = 999;
+                    seconds--;
+                    if(seconds <0 ){
                     seconds = 59;
                     minutes--;
+                    }   
+                    Display();
                 }
                 
-                else if(seconds == 0 && minutes == 0){
+                
+               
+                
+                else if(seconds == 0 && minutes == 0 && milliseconds ==0){
                     mode = ALARM;
                     prevMode = COUNTDOWN;
                     break;
                 }
                 
-                Display();
-                LEDFlag = 1-LEDFlag; //will switch between 1 and 0 
-                LATBbits.LATB8 = LEDFlag; // Turns ON LED connected to port RB8
-                Delay_ms(1000);
+                //Display();
+                //LEDFlag = 1-LEDFlag; //will switch between 1 and 0 
+                //LATBbits.LATB8 = LEDFlag; // Turns ON LED connected to port RB8
+                Delay_ms(1);
                 //LED BLINK
                 break;
                 
@@ -155,6 +165,7 @@ int main(void) {
                 //sets minutes and seconds to 0 
                 minutes = 0; 
                 seconds = 0;
+                milliseconds = 0;
                 if (prevMode!=mode){
                     Display();
                 prevMode = RESET;
@@ -196,6 +207,13 @@ void Display(){
     sprintf(tempsecs, "%02d", seconds);//convert integer to string
     strcat(display, tempsecs);
     strcat(display, "s   ");
+    
+    strcat(display, ":");
+
+    sprintf(tempmilli, "%04d", milliseconds);//convert integer to string
+    strcat(display, tempmilli);
+    strcat(display, "ms   ");
+    
 
     Disp2String(display);
     strcpy(display, "\r"); //clears the display variable by setting it only equal to "\r"
@@ -270,7 +288,7 @@ void DebounceButtons()
             {
                 resCheck++;
             }
-            if(resCheck > 12)
+            if(resCheck > 2)
             {
                 break;
             }

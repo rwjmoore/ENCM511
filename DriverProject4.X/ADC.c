@@ -84,7 +84,7 @@ uint64_t collectSamples()
     {
     }
     
-    AD1CON1bits.ADON = 0; // turn on ADC module
+    AD1CON1bits.ADON = 0; // turn off ADC module
     
     counter = 0;
     average = 0;
@@ -93,7 +93,7 @@ uint64_t collectSamples()
     while (counter < total_samples)
     {   
         ADCValue = do_ADC();
-        sampleTotal += ADC1BUF0;//  * 3.25 / 1024;
+        sampleTotal += (ADC1BUF0 * 3.25 / 1023) * 1000;
         counter++;
     }
     sampleTotal /= 1000;

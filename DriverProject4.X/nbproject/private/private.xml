@@ -5,6 +5,9 @@
         <group>
             <file>file:/C:/Users/Eman2/OneDrive/Documents/MPLAB%20X/ENCM511/DriverProject4.X/newmain.c</file>
             <file>file:/C:/Users/Eman2/OneDrive/Documents/MPLAB%20X/ENCM511/DriverProject4.X/ADC.c</file>
+            <file>file:/C:/Users/Eman2/OneDrive/Documents/MPLAB%20X/ENCM511/DriverProject4.X/TimeDelay.c</file>
+            <file>file:/C:/Users/Eman2/OneDrive/Documents/MPLAB%20X/ENCM511/DriverProject4.X/IOs.c</file>
+            <file>file:/C:/Users/Eman2/OneDrive/Documents/MPLAB%20X/ENCM511/DriverProject4.X/UART2.c</file>
         </group>
     </open-files>
 </project-private>

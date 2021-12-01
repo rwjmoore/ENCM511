@@ -59,12 +59,18 @@ int main(void) // *ASK!!!: How to read and debug variables*
             {
                 do_ADC();
                 uint64_t average = collectSamples();
+                int aveInt = average / 1000;
+                int aveDec = average % 1000;
                 
-                Disp2String("\rADC Average Output: ");
-                Disp2Dec(average);
+                Disp2String("\rADC Average Voltage:.");
+                
+                Disp2Dec(aveInt);
+                Disp2String(".V...");
+                Disp2Dec(aveDec);
+                Disp2String(".mV");
                 
                 Disp2String("...");
-                DiplayBar(average);
+                //DiplayBar(average);
                 Delay_ms(1000);
             }
             ADC10SecFlag = 1;
@@ -134,16 +140,19 @@ void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
     TMR2 = 0;
 }
 
+// 3.25 / 65535
+
 void DiplayBar(uint64_t val)
 {
     int i = 0;
     // Bar Elements:
-    for (i = 0; i < val; i+=50)
+    
+    for (i = 700; i < val; i+=10)
     {
         Disp2String("[*]");
     }
     // White Space:
-    for (i = i; i < 22*50; i+=50)
+    for (i = i; i < 840; i+=10)
     {
         Disp2String("...");
     }

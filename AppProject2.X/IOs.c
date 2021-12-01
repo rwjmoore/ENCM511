@@ -70,26 +70,31 @@ int IOCheck()
     if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // PB1 (RA2) is pressed
     {
         //Disp2String("\rPB1_is_pressed");
+        LATBbits.LATB8 = 1;
         return 1;
     }
     else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 1) // PB2 (RA4) is pressed
     {
         //Disp2String("\rPB3_is_pressed");
+        LATBbits.LATB8 = 1;
         return 3;
     }
     else if(PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 0) // PB3 (RB4) is pressed
     {
         //Disp2String("\rPB2_is_pressed");
+        LATBbits.LATB8 = 1;
         return 2;
     }
     else if(PORTAbits.RA2 == 0 && PORTAbits.RA4 == 0 && PORTBbits.RB4 == 0) // 3 buttons pressed
     {
         Disp2String("\rAll_PBs_pressed");
+        LATBbits.LATB8 = 1;
         return 0;
     }
     else if (PORTAbits.RA2 == 1 && PORTAbits.RA4 == 1 && PORTBbits.RB4 == 1) // No buttons pressed
     {        
         //Disp2String("\rNothing_pressed"); 
+        LATBbits.LATB8 = 0;
      
         
         
@@ -97,6 +102,7 @@ int IOCheck()
     }
     else // 2 Buttons pressed
     {
+        LATBbits.LATB8 = 1;
         if (PORTBbits.RB4 == 1)
         {
             //Disp2String("\rPB1_and_PB2_are_pressed"); 

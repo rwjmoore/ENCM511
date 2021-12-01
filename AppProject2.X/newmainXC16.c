@@ -17,6 +17,7 @@
 #include "IOs.h"
 #include "TimeDelay.h"
 #include "UART2.h"
+#include "ADC.h"
 
 
 
@@ -28,6 +29,8 @@
 #define stopWatch 4
 
 //Function Prototypes 
+uint64_t collectSamples();
+uint64_t do_ADC(void);
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void); //Interrupt for Timer2
 void Delay_ms(uint16_t time_ms);
 void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void); //CN Interrupt (for IO Change Notification)
@@ -49,14 +52,54 @@ int milliseconds = 0;
 
 int main(void) {
     
+    IOinit();
+    NewClk(8); //set clock to 8Mhz
+    // ----- Configuring the CN (IO Change) Interrupt ---- //
+    IPC4bits.CNIP0 = 0; //Configure CN interrupt to priority 6 (110)
+    IPC4bits.CNIP1 = 1;
+    IPC4bits.CNIP2 = 1;
+    IFS1bits.CNIF = 0; //clear flag bit for CN interrupt
+    IEC1bits.CNIE = 1; //Input change notification interrupt enable bit 
+    // ------       Config IO interrupt DONE       ------ //
+    
+    uint64_t average = 0;
+    int aveInt = 0;
+    int aveDec = 0;
+        
     while(1){
+        
+        
+        //Disp2String("\rFlag:.");
+        //Disp2Dec(mode);
+        //Disp2String("...................................");
         
         switch(mode){
             
             case sleep:
                 NewClk(32);                
                 break; 
+            
+            case Voltmeter:
                 
+                NewClk(32);
+                
+                Disp2String("\rADC Average Voltage:.");
+                
+                do_ADC();
+                average = collectSamples();
+                aveInt = average / 1000;
+                aveDec = average % 1000;
+                
+                Disp2Dec(aveInt);
+                Disp2String(".V...");
+                Disp2Dec(aveDec);
+                Disp2String(".mV");
+                
+                Disp2String("...");
+                
+                Delay_ms(1000);
+                
+                break;
                 
             case capacitanceMeter:
                 
@@ -120,7 +163,6 @@ void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
 {
     IFS0bits.T2IF = 0; // Clear Timer 2 Flag
     T2CONbits.TON = 0; // Stops Timer
-    
 }
 
 void DebounceButtons()

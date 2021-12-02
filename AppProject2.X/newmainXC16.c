@@ -63,8 +63,8 @@ int main(void) {
     // ------       Config IO interrupt DONE       ------ //
     
     uint64_t ADCVoltage = 0;
-    uint64_t ADCResistance = 0;
-    uint64_t resistorCurrent = 0;
+    double ADCResistance = 0;
+    double resistorCurrent = 0;
     int aveInt = 0;
     int aveDec = 0;
         
@@ -114,10 +114,7 @@ int main(void) {
                 
                 resistorCurrent = (3.25 - (ADCVoltage/1000))/1000;
                 
-                ADCResistance = (3.25 - (1000*resistorCurrent))/(resistorCurrent);           
-                
-                aveInt = ADCResistance / 1000;
-                aveDec = ADCResistance % 1000;
+                ADCResistance = (3.25 - (1000*resistorCurrent))/(resistorCurrent);
                 
                 Disp2Dec(aveInt);
                 Disp2String(".Ohm...");

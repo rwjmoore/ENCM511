@@ -30,9 +30,7 @@ void ADC_Delay(uint16_t time_ms)
 }
 
 uint64_t do_ADC(int input)
-{
-    NewClk(32);
-    
+{    
     uint16_t ADCValue ; // 16 bit register used to hold ADC converted digital output ADC1BUF0
 
     /* ------------- ADC INITIALIZATION ------------------*/

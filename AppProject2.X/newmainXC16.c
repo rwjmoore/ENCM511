@@ -106,14 +106,15 @@ int main(void) {
                 
             case Ohmeter:
                 
+                NewClk(32);
                 Disp2String("\rADC.Average.Resistance:.");
                 
                 do_ADC(11);
                 ADCVoltage = collectSamples(11);
                 
-                resistorCurrent = (3.25 - ADCVoltage/1000)/1000;
+                resistorCurrent = (3.25 - (ADCVoltage/1000))/1000;
                 
-                ADCResistance = (3.25 - 1000*resistorCurrent)/(resistorCurrent);           
+                ADCResistance = (3.25 - (1000*resistorCurrent))/(resistorCurrent);           
                 
                 aveInt = ADCResistance / 1000;
                 aveDec = ADCResistance % 1000;

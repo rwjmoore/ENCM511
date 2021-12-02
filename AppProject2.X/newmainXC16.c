@@ -29,8 +29,8 @@
 #define stopWatch 4
 
 //Function Prototypes 
-uint64_t collectSamples();
-uint64_t do_ADC(void);
+uint64_t collectSamples(int input);
+uint64_t do_ADC(int input);
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void); //Interrupt for Timer2
 void Delay_ms(uint16_t time_ms);
 void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void); //CN Interrupt (for IO Change Notification)
@@ -62,12 +62,14 @@ int main(void) {
     IEC1bits.CNIE = 1; //Input change notification interrupt enable bit 
     // ------       Config IO interrupt DONE       ------ //
     
-    uint64_t average = 0;
+    uint64_t ADCVoltage = 0;
+    uint64_t ADCResistance = 0;
     int aveInt = 0;
     int aveDec = 0;
         
     while(1){
-        
+        ADCVoltage = 0;
+        ADCResistance = 0;
         
         //Disp2String("\rFlag:.");
         //Disp2Dec(mode);
@@ -85,10 +87,10 @@ int main(void) {
                 
                 Disp2String("\rADC Average Voltage:.");
                 
-                do_ADC();
-                average = collectSamples();
-                aveInt = average / 1000;
-                aveDec = average % 1000;
+                do_ADC(5);
+                ADCVoltage = collectSamples(5);
+                aveInt = ADCVoltage / 1000;
+                aveDec = ADCVoltage % 1000;
                 
                 Disp2Dec(aveInt);
                 Disp2String(".V...");
@@ -101,12 +103,33 @@ int main(void) {
                 
                 break;
                 
-            case capacitanceMeter:
+            case Ohmeter:
                 
+                NewClk(32);
                 
+                Disp2String("\rADC Average Resistance:.");
+                
+                do_ADC(11);
+                ADCVoltage = collectSamples(11);
+                ADCResistance = (1000 * ADCVoltage)/(3.25 - ADCVoltage);           
+                
+                aveInt = ADCResistance / 1000;
+                aveDec = ADCResistance % 1000;
+                
+                Disp2Dec(aveInt);
+                Disp2String(".?...");
+                Disp2Dec(aveDec);
+                Disp2String(".m?");
+                
+                Disp2String("...");
+                
+                Delay_ms(1000);
                 
                 break;
                 
+            case capacitanceMeter:
+                
+                break;
                 
             case stopWatch:
                 milliseconds--;

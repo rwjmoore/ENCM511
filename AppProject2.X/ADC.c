@@ -29,7 +29,7 @@ void ADC_Delay(uint16_t time_ms)
     PR2 = 16 * time_ms;// PR2 Calculation   
 }
 
-uint64_t do_ADC(void)
+uint64_t do_ADC(int input)
 {
     uint16_t ADCValue ; // 16 bit register used to hold ADC converted digital output ADC1BUF0
 
@@ -60,7 +60,18 @@ uint64_t do_ADC(void)
     // ADD CODE // Select and configure ADC input as shown in slides 18-20
     
     AD1CHSbits.CH0NA = 0; // Channel 0 negative input select for MUX A
-    AD1CHSbits.CH0SA = 0b0101; // Channel 0 positive input select for MUX A
+    if (input == 5)
+    {
+        AD1CHSbits.CH0SA = 0b0101; // Channel 0 positive input select is AN5 for MUX A
+    }
+    if (input == 11)
+    {
+        AD1CHSbits.CH0SA = 0b1011; // Channel 0 positive input select is AN11 for MUX A
+    }
+    else
+    {
+        AD1CHSbits.CH0SA = 0b0101; // Channel 0 positive input select is AN5 for MUX A
+    }
     
     AD1PCFGbits.PCFG5 = 0; // Sets pin to Analog Mode
     AD1CSSL = 0;
@@ -75,7 +86,7 @@ uint64_t do_ADC(void)
     return (ADCValue); //returns 10 bit ADC output stored in ADC1BIF0 to calling function
 }
 
-uint64_t collectSamples()
+uint64_t collectSamples(int input)
 {
     AD1CON1bits.ADON = 1; // turn on ADC module
     AD1CON1bits.ASAM = 0;
@@ -92,7 +103,7 @@ uint64_t collectSamples()
     int total_samples = 1000;
     while (counter < total_samples)
     {   
-        ADCValue = do_ADC();
+        ADCValue = do_ADC(input);
         sampleTotal += (ADC1BUF0 * 3.25 / 1023) * 1000;
         counter++;
     }

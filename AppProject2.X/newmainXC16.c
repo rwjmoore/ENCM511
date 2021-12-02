@@ -64,6 +64,7 @@ int main(void) {
     
     uint64_t ADCVoltage = 0;
     uint64_t ADCResistance = 0;
+    uint64_t resistorCurrent = 0;
     int aveInt = 0;
     int aveDec = 0;
         
@@ -85,7 +86,7 @@ int main(void) {
                 
                 NewClk(32);
                 
-                Disp2String("\rADC Average Voltage:.");
+                Disp2String("\rADC.Average.Voltage:.");
                 
                 do_ADC(5);
                 ADCVoltage = collectSamples(5);
@@ -105,21 +106,22 @@ int main(void) {
                 
             case Ohmeter:
                 
-                NewClk(32);
-                
-                Disp2String("\rADC Average Resistance:.");
+                Disp2String("\rADC.Average.Resistance:.");
                 
                 do_ADC(11);
                 ADCVoltage = collectSamples(11);
-                ADCResistance = (1000 * ADCVoltage)/(3.25 - ADCVoltage);           
+                
+                resistorCurrent = (3.25 - ADCVoltage/1000)/1000;
+                
+                ADCResistance = (3.25 - 1000*resistorCurrent)/(resistorCurrent);           
                 
                 aveInt = ADCResistance / 1000;
                 aveDec = ADCResistance % 1000;
                 
                 Disp2Dec(aveInt);
-                Disp2String(".?...");
+                Disp2String(".Ohm...");
                 Disp2Dec(aveDec);
-                Disp2String(".m?");
+                Disp2String(".mOhm");
                 
                 Disp2String("...");
                 

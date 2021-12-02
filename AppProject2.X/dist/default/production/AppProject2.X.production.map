@@ -125,11 +125,11 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0xb6c          0x1122  (4386)
-.const                       0xd6c                0x5c            0x8a  (138)
-.text                        0xdc8               0x75c           0xb0a  (2826)
-.dinit                      0x1524                0x1a            0x27  (39)
+.const                       0xd6c                0x60            0x90  (144)
+.text                        0xdcc               0x796           0xb61  (2913)
+.dinit                      0x1562                0x1a            0x27  (39)
 
-                 Total "program" memory used (bytes):         0x1cdd  (7389) 45%
+                 Total "program" memory used (bytes):         0x1d3a  (7482) 46%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x600]
@@ -223,39 +223,39 @@ External Symbols in Program Memory (by address):
                   0x000ce6                  ___umuldi3
                   0x000d2a                  __fcompare
                   0x000d60                  _strlen
-                  0x000dc8                  _main
-                  0x000f2a                  _DebounceButtons
-                  0x001006                  _InitUART2
-                  0x00106e                  _XmitUART2
-                  0x0010a6                  _Disp2Hex
-                  0x001104                  _Disp2Hex32
-                  0x001172                  _Disp2Dec
-                  0x0011d2                  _Disp2String
-                  0x0011f4                  _comparatorInit
-                  0x001246                  _IOCheck
-                  0x00130e                  _IOinit
-                  0x00132e                  _ADC_Delay
-                  0x001344                  _do_ADC
-                  0x0013ce                  _collectSamples
-                  0x001466                  _NewClk
-                  0x0014da                  _Delay_ms
-                  0x0014fe                  _configTimerInterrupt
-                  0x001510                  _configTimers
+                  0x000dcc                  _main
+                  0x000f64                  _DebounceButtons
+                  0x001040                  _InitUART2
+                  0x0010a8                  _XmitUART2
+                  0x0010e0                  _Disp2Hex
+                  0x00113e                  _Disp2Hex32
+                  0x0011ac                  _Disp2Dec
+                  0x00120c                  _Disp2String
+                  0x00122e                  _ADC_Delay
+                  0x001244                  _do_ADC
+                  0x0012d2                  _collectSamples
+                  0x00136a                  _comparatorInit
+                  0x0013bc                  _IOCheck
+                  0x001484                  _IOinit
+                  0x0014a4                  _NewClk
+                  0x001518                  _Delay_ms
+                  0x00153c                  _configTimerInterrupt
+                  0x00154e                  _configTimers
 
 External Symbols in Program Memory (by name):
 
-                  0x00132e                  _ADC_Delay
-                  0x000f2a                  _DebounceButtons
-                  0x0014da                  _Delay_ms
-                  0x001172                  _Disp2Dec
-                  0x0010a6                  _Disp2Hex
-                  0x001104                  _Disp2Hex32
-                  0x0011d2                  _Disp2String
-                  0x001246                  _IOCheck
-                  0x00130e                  _IOinit
-                  0x001006                  _InitUART2
-                  0x001466                  _NewClk
-                  0x00106e                  _XmitUART2
+                  0x00122e                  _ADC_Delay
+                  0x000f64                  _DebounceButtons
+                  0x001518                  _Delay_ms
+                  0x0011ac                  _Disp2Dec
+                  0x0010e0                  _Disp2Hex
+                  0x00113e                  _Disp2Hex32
+                  0x00120c                  _Disp2String
+                  0x0013bc                  _IOCheck
+                  0x001484                  _IOinit
+                  0x001040                  _InitUART2
+                  0x0014a4                  _NewClk
+                  0x0010a8                  _XmitUART2
                   0x0002d8                  __CNInterrupt
                   0x00030e                  __DefaultInterrupt
                   0x000304                  __T2Interrupt
@@ -297,15 +297,15 @@ External Symbols in Program Memory (by name):
                   0x0005aa                  __funpack2
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x0013ce                  _collectSamples
-                  0x0011f4                  _comparatorInit
-                  0x0014fe                  _configTimerInterrupt
-                  0x001510                  _configTimers
-                  0x001344                  _do_ADC
+                  0x0012d2                  _collectSamples
+                  0x00136a                  _comparatorInit
+                  0x00153c                  _configTimerInterrupt
+                  0x00154e                  _configTimers
+                  0x001244                  _do_ADC
                   0x000a78                  _expf
                   0x000bf4                  _ldexpf
                   0x000c38                  _logf
-                  0x000dc8                  _main
+                  0x000dcc                  _main
                   0x000642                  _powf
                   0x000d60                  _strlen
 
@@ -511,30 +511,30 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x40d5
+.debug_info       0x000000       0x4105
  *(.debug_info)
  .debug_info      0x000000        0xe8e build/default/production/UART2.o
  .debug_info      0x000e8e        0xa75 build/default/production/TimeDelay.o
  .debug_info      0x001903       0x10bf build/default/production/IOs.o
- .debug_info      0x0029c2        0xbb1 build/default/production/newmainXC16.o
- .debug_info      0x003573        0xb62 build/default/production/ADC.o
+ .debug_info      0x0029c2        0xbcb build/default/production/newmainXC16.o
+ .debug_info      0x00358d        0xb78 build/default/production/ADC.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x5f7
+.debug_abbrev     0x000000        0x60f
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x114 build/default/production/UART2.o
  .debug_abbrev    0x000114        0x147 build/default/production/TimeDelay.o
  .debug_abbrev    0x00025b        0x10d build/default/production/IOs.o
  .debug_abbrev    0x000368        0x13e build/default/production/newmainXC16.o
- .debug_abbrev    0x0004a6        0x151 build/default/production/ADC.o
+ .debug_abbrev    0x0004a6        0x169 build/default/production/ADC.o
 
-.debug_line       0x000000        0x6be
+.debug_line       0x000000        0x6c2
  *(.debug_line)
  .debug_line      0x000000        0x17d build/default/production/UART2.o
  .debug_line      0x00017d        0x12e build/default/production/TimeDelay.o
  .debug_line      0x0002ab        0x14b build/default/production/IOs.o
- .debug_line      0x0003f6        0x18f build/default/production/newmainXC16.o
- .debug_line      0x000585        0x139 build/default/production/ADC.o
+ .debug_line      0x0003f6        0x192 build/default/production/newmainXC16.o
+ .debug_line      0x000588        0x13a build/default/production/ADC.o
 
 .debug_frame      0x000000        0x2dc
  *(.debug_frame)
@@ -1117,34 +1117,34 @@ __c30_signature
  .ivt._T2Interrupt
                   0x000022          0x2 build/default/production/newmainXC16.o
 
-.const              0x8d6c         0x5c load address 0x000d6c  
- .const             0x8d6c         0x4a build/default/production/newmainXC16.o
- .const             0x8db6         0x12 build/default/production/IOs.o
+.const              0x8d6c         0x60 load address 0x000d6c  
+ .const             0x8d6c         0x4e build/default/production/newmainXC16.o
+ .const             0x8dba         0x12 build/default/production/IOs.o
 
-.text             0x000dc8        0x75c
- .text            0x000dc8        0x23e build/default/production/newmainXC16.o
-                  0x000dc8                  _main
-                  0x000f2a                  _DebounceButtons
- .text            0x001006        0x1ee build/default/production/UART2.o
-                  0x001006                  _InitUART2
-                  0x00106e                  _XmitUART2
-                  0x0010a6                  _Disp2Hex
-                  0x001104                  _Disp2Hex32
-                  0x001172                  _Disp2Dec
-                  0x0011d2                  _Disp2String
- .text            0x0011f4        0x13a build/default/production/IOs.o
-                  0x0011f4                  _comparatorInit
-                  0x001246                  _IOCheck
-                  0x00130e                  _IOinit
- .text            0x00132e        0x138 build/default/production/ADC.o
-                  0x00132e                  _ADC_Delay
-                  0x001344                  _do_ADC
-                  0x0013ce                  _collectSamples
- .text            0x001466         0xbe build/default/production/TimeDelay.o
-                  0x001466                  _NewClk
-                  0x0014da                  _Delay_ms
-                  0x0014fe                  _configTimerInterrupt
-                  0x001510                  _configTimers
+.text             0x000dcc        0x796
+ .text            0x000dcc        0x274 build/default/production/newmainXC16.o
+                  0x000dcc                  _main
+                  0x000f64                  _DebounceButtons
+ .text            0x001040        0x1ee build/default/production/UART2.o
+                  0x001040                  _InitUART2
+                  0x0010a8                  _XmitUART2
+                  0x0010e0                  _Disp2Hex
+                  0x00113e                  _Disp2Hex32
+                  0x0011ac                  _Disp2Dec
+                  0x00120c                  _Disp2String
+ .text            0x00122e        0x13c build/default/production/ADC.o
+                  0x00122e                  _ADC_Delay
+                  0x001244                  _do_ADC
+                  0x0012d2                  _collectSamples
+ .text            0x00136a        0x13a build/default/production/IOs.o
+                  0x00136a                  _comparatorInit
+                  0x0013bc                  _IOCheck
+                  0x001484                  _IOinit
+ .text            0x0014a4         0xbe build/default/production/TimeDelay.o
+                  0x0014a4                  _NewClk
+                  0x001518                  _Delay_ms
+                  0x00153c                  _configTimerInterrupt
+                  0x00154e                  _configTimers
 
-.dinit            0x001524         0x1a
- .dinit           0x001524         0x1a data_init
+.dinit            0x001562         0x1a
+ .dinit           0x001562         0x1a data_init

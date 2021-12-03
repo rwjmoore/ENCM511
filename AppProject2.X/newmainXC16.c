@@ -107,21 +107,18 @@ int main(void) {
             case Ohmeter:
                 
                 NewClk(32);
-                Disp2String("\rADC.Average.Resistance:.");
                 
                 do_ADC(11);
                 ADCVoltage = collectSamples(11);
                 
-                resistorCurrent = (3.25 - (ADCVoltage/1000))/1000;
+                resistorCurrent = (3.25 - ((double)ADCVoltage)/1000)/1000;
                 
-                ADCResistance = (3.25 - (1000*resistorCurrent))/(resistorCurrent);
+                ADCResistance = (3.25 - (resistorCurrent*1000))/(resistorCurrent);
                 
-                Disp2Dec(aveInt);
-                Disp2String(".Ohm...");
-                Disp2Dec(aveDec);
-                Disp2String(".mOhm");
+                char display[100] = "\r";
                 
-                Disp2String("...");
+                sprintf(display, "\rADC.Average.Resistance:.%5.3f..Ohm.......", ADCResistance);
+                Disp2String(display);
                 
                 Delay_ms(1000);
                 

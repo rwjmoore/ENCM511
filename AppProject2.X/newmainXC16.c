@@ -18,6 +18,7 @@
 #include "TimeDelay.h"
 #include "UART2.h"
 #include "ADC.h"
+#include "Comparator.h"
 
 
 
@@ -46,7 +47,7 @@ int minutes = 0;
 int seconds = 0; 
 int milliseconds = 0; 
 
-
+uint64_t compare();
 
 
 
@@ -68,7 +69,16 @@ int main(void) {
     int aveInt = 0;
     int aveDec = 0;
         
+    int i = 0;
+    
     while(1){
+        i++;
+        Disp2String("\r");
+        Disp2Dec(compare());
+        Disp2String(".V...");
+    }
+    
+    {
         ADCVoltage = 0;
         ADCResistance = 0;
         

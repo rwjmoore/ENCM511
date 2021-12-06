@@ -14,7 +14,7 @@
  PURPOSE: To initialize the comparator on the correct pin
  
  */
-int comparatorInit(){
+/*int comparatorInit(){
     //let's use RB1 as the comparator input 
     
     TRISAbits.TRISA6 = 0; 	// for C2Out
@@ -53,7 +53,7 @@ int comparatorInit(){
 
     
     return 0;
-}
+}*/
 
 int IOCheck()
 {//Checks which pushbuttons are pressed and returns the value of the one that is pressed

@@ -9,10 +9,13 @@
 #include <xc.h>
 #include <p24F16KA101.h>
 
+#include "TimeDelay.h"
 
 void configTimerInterrupt();
 void configTimers();
 void NewClk(unsigned int clkval);
+
+uint32_t interruptedTime = 0;
 
 void NewClk(unsigned int clkval)  
 {
@@ -53,9 +56,10 @@ void Delay_ms(uint32_t time_ms)
     TMR2 = 0; // Timer Cleared
     PR2 = 16 * time_ms;// PR2 Calculation
     T2CONbits.TON = 1; // Start Clock
-    
+    interruptedTime = TMR2;
     Idle(); //Idle until a interrupt is handled
     T2CONbits.TON = 0; //Turn off clock
+    
     TMR2 = 0;
     NewClk(8);
 }
@@ -77,5 +81,9 @@ void configTimers()
     T2CONbits.TCS = 0; // Use Internal Clock
     T2CONbits.TCKPS = 3; // Sets Pre-scaler to 11
     //T2CONbits.TCKPS = 0b00; // Sets Pre-scaler to 1:1
+}
 
+uint64_t getInterruptedTime()
+{
+    return interruptedTime;
 }

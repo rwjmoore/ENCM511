@@ -437,12 +437,12 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x2985
+.debug_info       0x000000       0x29ad
  *(.debug_info)
- .debug_info      0x000000        0xa6a build/default/production/IOs.o
- .debug_info      0x000a6a        0xa4e build/default/production/TimeDelay.o
- .debug_info      0x0014b8        0x656 build/default/production/newmain.o
- .debug_info      0x001b0e        0xe77 build/default/production/UART2.o
+ .debug_info      0x000000        0xa74 build/default/production/IOs.o
+ .debug_info      0x000a74        0xa58 build/default/production/TimeDelay.o
+ .debug_info      0x0014cc        0x660 build/default/production/newmain.o
+ .debug_info      0x001b2c        0xe81 build/default/production/UART2.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x465

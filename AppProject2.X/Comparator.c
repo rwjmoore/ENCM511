@@ -7,8 +7,12 @@
 
 #include "UART2.h"
 #include "Comparator.h"
+#include "TimeDelay.h"
 
 int eventCount = 0;
+
+uint32_t getInterruptedTime();
+void Delay_ms(uint32_t time_ms);
 
 void comparatorInit()
 {
@@ -26,14 +30,15 @@ void comparatorInit()
     CM2CONbits.CON = 1; 	//turn comparator on
     
     
-    TRISAbits.TRISA2 = 1; 	// A2 set as input on port pin
-    AD1PCFGbits.PCFG4 = 0; 	// Set input to Analog
+    TRISAbits.TRISA4 = 1; 	// A2 set as input on port pin
+    AD1PCFGbits.PCFG3 = 0; 	// Set input to Analog
+    
     IEC1bits.CMIE = 0; 		// IE Off so no interrupt occurs from setup
     CM1CONbits.COE = 0; 	// Disable output pin
     CM1CONbits.CPOL = 0; 	// Standard sense. +In High ==> Out High
     CM1CONbits.EVPOL = 2; 	// Event detected on output edge falling
     CM1CONbits.CREF = 1; 	// +IN is internal CVRef
-    CM1CONbits.CCH = 0; 	// -IN is C1INB Pin
+    CM1CONbits.CCH = 1; 	// -IN is C1INB Pin
     CM1CONbits.CON = 1; 	// Turn Comparator ON
     
     CVRCON = 0x88; 		// CVRef = (1/2) * (AVdd - AVss)
@@ -50,22 +55,24 @@ void comparatorInit()
 void __attribute__((interrupt, no_auto_psv)) _CompInterrupt(void)
 {
 	IFS1bits.CMIF = 0;		// clear IF flag
+    eventCount++; 
+    Nop();
         
     return;
 }
 
-uint64_t compare()
+uint32_t compare()
 {
-    if (CM1CONbits.CEVT == 1) 	// Check C1EVT bit or CEVT
-    {
-        eventCount++; 		// Count edges for whoever uses them
+    /*if (CM1CONbits.CEVT == 1) 	// Check C1EVT bit or CEVT
+    {		// Count edges for whoever uses them
         // Must use Control Register to clear flag.
-        Disp2Dec(eventCount); 
-            XmitUART2('\n', 1);
-            XmitUART2('\r', 1);
+        //Disp2String("Event Count:.");
+        //Disp2Dec(eventCount);
         // Status is read-only.
         CM1CONbits.CEVT = 0;
-    }
+    }*/
     
-    return eventCount;
+    Delay_ms(1000);
+    
+    return getInterruptedTime();
 }

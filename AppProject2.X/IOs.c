@@ -106,17 +106,17 @@ int IOCheck()
         if (PORTBbits.RB4 == 1)
         {
             //Disp2String("\rPB1_and_PB2_are_pressed"); 
-            return 0;
+            return -1;
         }
         else if(PORTAbits.RA4 == 1)
         {
             //Disp2String("\rPB1_and_PB3_are_pressed");
-            return 0;
+            return -1;
         }
         else if(PORTAbits.RA2 == 1)
         {
             //Disp2String("\rPB2_and_PB3_are_pressed");
-            return 0;
+            return -1;
         }
     }
     return 0;

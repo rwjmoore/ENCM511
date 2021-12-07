@@ -23,7 +23,7 @@
 
 
 //MODES OF OPERATION
-#define sleep 0
+#define frequency 0
 #define Voltmeter 1
 #define Ohmeter 2
 #define capacitanceMeter 3
@@ -33,7 +33,7 @@
 uint64_t collectSamples(int input);
 uint64_t do_ADC(int input);
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void); //Interrupt for Timer2
-void Delay_ms(uint16_t time_ms);
+void Delay_ms(uint32_t time_ms);
 void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void); //CN Interrupt (for IO Change Notification)
 void DebounceButtons();
 void Display();
@@ -48,6 +48,7 @@ int seconds = 0;
 int milliseconds = 0; 
 
 uint64_t compare();
+void comparatorInit();
 
 
 
@@ -68,16 +69,8 @@ int main(void) {
     double resistorCurrent = 0;
     int aveInt = 0;
     int aveDec = 0;
-        
-    int i = 0;
     
-    while(1){
-        i++;
-        Disp2String("\r");
-        Disp2Dec(compare());
-        Disp2String(".V...");
-    }
-    
+    while(1)    
     {
         ADCVoltage = 0;
         ADCResistance = 0;
@@ -88,8 +81,14 @@ int main(void) {
         
         switch(mode){
             
-            case sleep:
-                NewClk(32);                
+            case frequency:
+                NewClk(32);
+                
+                comparatorInit();
+                Disp2String("\rFrequency: ");
+                Disp2Dec(compare());
+                Disp2String(".Hz...............................");
+                
                 break; 
             
             case Voltmeter:
@@ -192,6 +191,7 @@ void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void){
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
 {
     IFS0bits.T2IF = 0; // Clear Timer 2 Flag
+    
     T2CONbits.TON = 0; // Stops Timer
 }
 

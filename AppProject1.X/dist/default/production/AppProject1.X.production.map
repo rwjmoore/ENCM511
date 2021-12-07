@@ -728,12 +728,12 @@ __FDS
  *(.comment)
  .comment         0x000000         0x5e c:/program files/microchip/xc16/v1.70/bin/bin/../../lib\liblega-c-elf.a(xfiles.XX_elo)
 
-.debug_info       0x000000       0x30de
+.debug_info       0x000000       0x30df
  *(.debug_info)
  .debug_info      0x000000        0xa5b build/default/production/TimeDelay.o
  .debug_info      0x000a5b        0xe74 build/default/production/UART2.o
- .debug_info      0x0018cf        0xda4 build/default/production/newmainXC16.o
- .debug_info      0x002673        0xa6b build/default/production/IOs.o
+ .debug_info      0x0018cf        0xda5 build/default/production/newmainXC16.o
+ .debug_info      0x002674        0xa6b build/default/production/IOs.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x49f
@@ -1398,6 +1398,9 @@ __c30_signature
                   0x000052          0x2
  .ivt._U2TXInterrupt
                   0x000052          0x2 build/default/production/UART2.o
+
+.config_FCKSM     0xf80008          0x2
+ .config_FCKSM    0xf80008          0x2 build/default/production/newmainXC16.o
 
 .ivt._CNInterrupt
                   0x00003a          0x2

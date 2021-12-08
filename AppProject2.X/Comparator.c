@@ -61,7 +61,7 @@ void __attribute__((interrupt, no_auto_psv)) _CompInterrupt(void)
     return;
 }
 
-uint32_t compare()
+double compare()
 {
     /*if (CM1CONbits.CEVT == 1) 	// Check C1EVT bit or CEVT
     {		// Count edges for whoever uses them

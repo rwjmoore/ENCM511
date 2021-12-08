@@ -34,7 +34,7 @@
 #include <xc.h> // include processor files - each processor file is guarded.
 
 void comparatorInit();
-uint32_t compare();
+double compare();
 void __attribute__((interrupt, no_auto_psv)) _CompInterrupt(void);
 
 // TODO Insert appropriate #include <>

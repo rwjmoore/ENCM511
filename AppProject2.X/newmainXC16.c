@@ -47,7 +47,7 @@ int minutes = 0;
 int seconds = 0; 
 int milliseconds = 0; 
 
-uint64_t compare();
+double compare();
 void comparatorInit();
 
 
@@ -85,10 +85,11 @@ int main(void) {
                 NewClk(32);
                 
                 comparatorInit();
-                Disp2String("\rFrequency: ");
-                Disp2Dec(compare());
-                Disp2String(".Hz...............................");
                 
+                char freqDisplay[100] = "\r";
+                sprintf(freqDisplay, "\rFrequency:.%5.3f.Hz.........................", compare());
+                Disp2String(freqDisplay);
+                                
                 break; 
             
             case Voltmeter:
@@ -124,10 +125,10 @@ int main(void) {
                 
                 ADCResistance = (3.25 - (resistorCurrent*1000))/(resistorCurrent);
                 
-                char display[100] = "\r";
+                char resistDisplay[100] = "\r";
                 
-                sprintf(display, "\rADC.Average.Resistance:.%5.3f..Ohm.......", ADCResistance);
-                Disp2String(display);
+                sprintf(resistDisplay, "\rADC.Average.Resistance:.%5.3f..Ohm.......", ADCResistance);
+                Disp2String(resistDisplay);
                 
                 Delay_ms(1000);
                 

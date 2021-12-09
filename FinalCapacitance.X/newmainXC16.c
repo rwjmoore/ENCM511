@@ -27,14 +27,17 @@ int mode = 0;
 #define capacitanceMeter 6
 
 //END OF APP2
-#pragma config FCKSM = CSECMD // Clock switching is enabled, clock monitor disabled 
-#pragma config OSCIOFNC = ON //CLKO output disabled on pin 8, use as IO.
+//#pragma config FCKSM = CSECMD // Clock switching is enabled, clock monitor disabled 
+//#pragma config OSCIOFNC = ON //CLKO output disabled on pin 8, use as IO.
 
 void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void); //CN Interrupt (for IO Change Notification)
+void StartTimer(uint32_t time_ms);
+void timerIsON();
+uint64_t getInterruptedTime();
 int x = 0;
 int main(void){
     IOinit();
-    NewClk(8);
+    NewClk(32);
     mode = capacitanceMeter;
     while(1){
         
@@ -53,9 +56,13 @@ int main(void){
         //LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
 
         startCapCharge();
-        
-        Idle();
+        Delay_ms(4000);
         //while(CM1CONbits.CEVT != 1);
+        double time = getInterruptedTime();
+        double capacitance = time/2100;
+        char freqDisplay[100] = "\r";
+        sprintf(freqDisplay, "\nCapacitance:.%d .........................\n", time);
+        Disp2String(freqDisplay);        
         LATBbits.LATB8 = 0; // Turns ON LED connected to port RB8
 
         //while(eventCount==0); //verify this works!! ..dont think i need this bc the timer should snap me out

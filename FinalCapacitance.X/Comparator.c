@@ -13,6 +13,7 @@ int eventCount = 0;
 bool frequency = false;
 int capCount = 0;
 
+void Delay_ms(uint32_t time_ms);
 uint32_t getInterruptedTime();
 //If frequency ==TRUE, configure for frequency (keep trigger at 1/2*Vdd)
 //If frequency == FALSE, configure for capacitance (change trigger to 0.63*Vdd)..also get comparator interrupt to return the time it took

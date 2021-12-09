@@ -9,11 +9,14 @@
 #include <xc.h>
 #include <p24F16KA101.h>
 
-void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void); //Interrupt for Timer2
+#include "TimeDelay.h"
 
 void configTimerInterrupt();
 void configTimers();
 void NewClk(unsigned int clkval);
+
+double interruptedTime = 0;
+uint64_t timerIsONFlag = 0;
 
 void NewClk(unsigned int clkval)  
 {
@@ -46,40 +49,39 @@ void NewClk(unsigned int clkval)
      SRbits.IPL = 0;  //enable interrupts
 }
 
-void Delay_ms(int time_ms)
+void Delay_ms(uint32_t time_ms)
 {
-    
-    
-    
-    //NewClk(32);
+    NewClk(32);
     configTimerInterrupt();
     configTimers();
     TMR2 = 0; // Timer Cleared
-    //                          PR2 = 16 * time_ms;// PR2 Calculation
-    if (OSCCONbits.COSC == 0b110) {  // If the clock is 500kHz
-		T2CONbits.TCKPS = 0b00;  // Set the timer prescaler to 64
-		PR2 = time_ms << 2;
-	} else if (OSCCONbits.COSC == 0b101) {  // If the clock is 32kHz
-		T2CONbits.TCKPS = 0b00;  // Set the timer prescaler to 1
-		PR2 = time_ms << 4;
-	} else if (OSCCONbits.COSC == 0b000) {  // If the clock is 8MHz
-		T2CONbits.TCKPS = 0b11;  // Set the timer prescaler to 256
-		PR2 = time_ms << 4;
-	} else {
-		// Undefined
-	}
+    PR2 = 16 * time_ms;// PR2 Calculation
     T2CONbits.TON = 1; // Start Clock
-    
+    timerIsONFlag = 1;
     Idle(); //Idle until a interrupt is handled
+    interruptedTime = (TMR2)/16.0;
     T2CONbits.TON = 0; //Turn off clock
     TMR2 = 0;
-    //NewClk(8);
+}
+
+void StartTimer(uint32_t time_ms)
+{
+    NewClk(32);
+    configTimerInterrupt();
+    configTimers();
+    TMR2 = 0; // Timer Cleared
+    PR2 = 16 * time_ms;// PR2 Calculation
+    T2CONbits.TON = 1; // Start Clock
+    timerIsONFlag = 1;
+    //Idle(); //Idle until a interrupt is handled
+    //T2CONbits.TON = 0; //Turn off clock
+    //TMR2 = 0;
 }
 
 void configTimerInterrupt()
 {
     // Timer Interrupts Setups:
-    IPC1bits.T2IP = 7; // Interrupt Priority set to 7
+    IPC1bits.T2IP = 3; // Interrupt Priority set to 7
     
     IEC0bits.T2IE = 1; // Enable Interrupt - Register 0
     IFS0bits.T2IF = 0; // Interrupt Flag Status Register Cleared
@@ -95,10 +97,21 @@ void configTimers()
     //T2CONbits.TCKPS = 0b00; // Sets Pre-scaler to 1:1
 }
 
-    
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
 {
     IFS0bits.T2IF = 0; // Clear Timer 2 Flag
-    T2CONbits.TON = 0; // Stops Timer
     
+    T2CONbits.TON = 0; // Stops Timer
+    timerIsONFlag = 0;
+}
+
+uint64_t getInterruptedTime()
+{
+   
+    return interruptedTime;
+}
+
+uint64_t timerIsON()
+{
+    return timerIsONFlag;
 }

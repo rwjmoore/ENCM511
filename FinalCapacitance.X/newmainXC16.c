@@ -20,7 +20,13 @@
 #include "TimeDelay.h"
 #include "UART2.h"
 #include "Comparator.h"
+int mode = 0;
 
+//ADD TO APP2
+#include "capacitance.h"
+#define capacitanceMeter 6
+
+//END OF APP2
 #pragma config FCKSM = CSECMD // Clock switching is enabled, clock monitor disabled 
 #pragma config OSCIOFNC = ON //CLKO output disabled on pin 8, use as IO.
 
@@ -29,24 +35,42 @@ int x = 0;
 int main(void){
     IOinit();
     NewClk(8);
+    mode = capacitanceMeter;
+    while(1){
+        
     
-    //calculating capacitance
-    //output voltage pin of 3.25V is RA6
-    TRISAbits.TRISA6 = 0; //Make RA6 digital output // this is what supplies voltage
-    //TRISBbits.TRISB2 = 0; //Make RA6 digital output // this is what discharges the capacitor
-    Delay_ms(100);
+    switch (mode){
     
-    //configure the comparator to interrupt at 0.63*Vdd = 2.0475V on same pin as frequency
-            //upon interrupt we call the timr and get the timer value 
+    case capacitanceMeter:
+//        TRISAbits.TRISA6 = 0; //Make RA6 digital output // this is what supplies voltage
+//        LATAbits.LATA6 = 1; // turn on voltage to 3.3V
+
+
+        //ADD TO APP2
+        Disp2String("\nDischarging\n");
+        discharge();
+        Disp2String("Starting Charging\n");
+        //LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+
+        startCapCharge();
+        
+        Idle();
+        //while(CM1CONbits.CEVT != 1);
+        LATBbits.LATB8 = 0; // Turns ON LED connected to port RB8
+
+        //while(eventCount==0); //verify this works!! ..dont think i need this bc the timer should snap me out
+        Disp2String("Starting Discharging");
+        discharge();
+        
+        
+        //display our capacitance reading (done in interrupt)
+        
+        //DONE APP2 
+        break; 
     
-    //start charging the capacitor
-    LATAbits.LATA6 = 1; // turn on voltage to 3.3V
-    //LATBbits.LATB2 = 1; //Prevent the discharge from happening
-    //start timer to measure this 
+    }
     
-    
-    
-    
+    }
     
 
 

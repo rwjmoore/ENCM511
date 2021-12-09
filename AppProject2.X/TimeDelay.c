@@ -58,8 +58,8 @@ void Delay_ms(uint32_t time_ms)
     PR2 = 16 * time_ms;// PR2 Calculation
     T2CONbits.TON = 1; // Start Clock
     timerIsONFlag = 1;
-    interruptedTime = TMR2 / 16;
     Idle(); //Idle until a interrupt is handled
+    interruptedTime = TMR2 / 16;
     T2CONbits.TON = 0; //Turn off clock
     TMR2 = 0;
 }
@@ -73,7 +73,6 @@ void StartTimer(uint32_t time_ms)
     PR2 = 16 * time_ms;// PR2 Calculation
     T2CONbits.TON = 1; // Start Clock
     timerIsONFlag = 1;
-    interruptedTime = TMR2 / 16;
     //Idle(); //Idle until a interrupt is handled
     //T2CONbits.TON = 0; //Turn off clock
     //TMR2 = 0;
@@ -82,7 +81,7 @@ void StartTimer(uint32_t time_ms)
 void configTimerInterrupt()
 {
     // Timer Interrupts Setups:
-    IPC1bits.T2IP = 7; // Interrupt Priority set to 7
+    IPC1bits.T2IP = 3; // Interrupt Priority set to 7
     
     IEC0bits.T2IE = 1; // Enable Interrupt - Register 0
     IFS0bits.T2IF = 0; // Interrupt Flag Status Register Cleared

@@ -33,6 +33,7 @@
 uint64_t collectSamples(int input);
 uint64_t do_ADC(int input);
 void Delay_ms(uint32_t time_ms);
+uint64_t getInterruptedTime();
 void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void); //CN Interrupt (for IO Change Notification)
 void DebounceButtons();
 void Display();
@@ -71,6 +72,14 @@ int main(void) {
     
     while(1)    
     {
+        /*Delay_ms(2000);
+        double time = getInterruptedTime();
+        char timeDisplay[100] = "\r";
+        sprintf(timeDisplay, "\rTime:.%5.3f.ms.........................", time);
+        Disp2String(timeDisplay);
+    }
+    
+    {*/
         ADCVoltage = 0;
         ADCResistance = 0;
         

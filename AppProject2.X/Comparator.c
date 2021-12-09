@@ -16,12 +16,13 @@ uint32_t getInterruptedTime();
 void Delay_ms(uint32_t time_ms);
 void StartTimer(uint32_t time_ms);
 uint64_t timerIsON();
+//void pwmInit();
 
 double currentFrequency = 0;
 
 void comparatorInit()
 {
-    pwmInit();
+    //pwmInit();
     
     TRISAbits.TRISA6 = 0; 	// for C2Out
     
@@ -68,7 +69,7 @@ void __attribute__((interrupt, no_auto_psv)) _CompInterrupt(void)
     return;
 }
 
-void pwmInit()
+/*void pwmInit()
 {
     OC1CON = 0x0000; // Turn off Output Compare 1 Module
     
@@ -83,7 +84,7 @@ void pwmInit()
     
     IFS0bits.OC1IF = 0; // Clear Output Compare 1 interrupt flag
     IEC0bits.OC1IE = 1; // Enable Output Compare 1 interrupts
-}
+}*/
 
 double compare()
 {        

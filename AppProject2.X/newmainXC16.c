@@ -32,7 +32,6 @@
 //Function Prototypes 
 uint64_t collectSamples(int input);
 uint64_t do_ADC(int input);
-void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void); //Interrupt for Timer2
 void Delay_ms(uint32_t time_ms);
 void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void); //CN Interrupt (for IO Change Notification)
 void DebounceButtons();
@@ -188,13 +187,6 @@ void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void){
     Nop(); //Apparently does nothing, but reserves space for delay or execution of other code
     
 } 
-
-void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
-{
-    IFS0bits.T2IF = 0; // Clear Timer 2 Flag
-    
-    T2CONbits.TON = 0; // Stops Timer
-}
 
 void DebounceButtons()
 {

@@ -10,6 +10,8 @@
  */
 
 void Delay_ms(uint32_t time_ms);
+void StartTimer(uint32_t time_ms);
 void configTimers();
 void configTimerInterrupt();
 void NewClk(unsigned int clkval);
+void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void); //Interrupt for Timer2

@@ -16,6 +16,7 @@ void configTimers();
 void NewClk(unsigned int clkval);
 
 uint32_t interruptedTime = 0;
+uint64_t timerIsONFlag = 0;
 
 void NewClk(unsigned int clkval)  
 {
@@ -56,12 +57,26 @@ void Delay_ms(uint32_t time_ms)
     TMR2 = 0; // Timer Cleared
     PR2 = 16 * time_ms;// PR2 Calculation
     T2CONbits.TON = 1; // Start Clock
-    interruptedTime = TMR2;
+    timerIsONFlag = 1;
+    interruptedTime = TMR2 / 16;
     Idle(); //Idle until a interrupt is handled
     T2CONbits.TON = 0; //Turn off clock
-    
     TMR2 = 0;
-    NewClk(8);
+}
+
+void StartTimer(uint32_t time_ms)
+{
+    NewClk(32);
+    configTimerInterrupt();
+    configTimers();
+    TMR2 = 0; // Timer Cleared
+    PR2 = 16 * time_ms;// PR2 Calculation
+    T2CONbits.TON = 1; // Start Clock
+    timerIsONFlag = 1;
+    interruptedTime = TMR2 / 16;
+    //Idle(); //Idle until a interrupt is handled
+    //T2CONbits.TON = 0; //Turn off clock
+    //TMR2 = 0;
 }
 
 void configTimerInterrupt()
@@ -83,7 +98,20 @@ void configTimers()
     //T2CONbits.TCKPS = 0b00; // Sets Pre-scaler to 1:1
 }
 
+void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void)
+{
+    IFS0bits.T2IF = 0; // Clear Timer 2 Flag
+    
+    T2CONbits.TON = 0; // Stops Timer
+    timerIsONFlag = 0;
+}
+
 uint64_t getInterruptedTime()
 {
     return interruptedTime;
+}
+
+uint64_t timerIsON()
+{
+    return timerIsONFlag;
 }

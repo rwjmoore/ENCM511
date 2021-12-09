@@ -19,18 +19,19 @@
 #include "IOs.h"
 #include "TimeDelay.h"
 #include "UART2.h"
-
+#include "CTMU.h"
 
 
 //different modes of code
 #define sleep 0 
-#define setMinutes 1
+#define setMinutes 9
 #define setSeconds 2
 #define PB3 3
 #define RESET 4
 #define shortPress 6
 #define COUNTDOWN 7
 #define ALARM 8
+#define capacitance 1
 
 void __attribute__((interrupt, no_auto_psv))_T2Interrupt(void); //Interrupt for Timer2
 void Delay_ms(uint16_t time_ms);
@@ -56,6 +57,7 @@ char tempmins[2] = ""; //holds temporary strings for formatting
 char tempsecs[2] = "";
 char tempmilli[4] ="";
 char display[19] = "\r";
+float cap = 0;
 
 int main(void) {
     IOinit();
@@ -70,6 +72,12 @@ int main(void) {
     while(1){
         
         switch(mode){
+            case capacitance:
+                cap = do_CTMU();
+                
+                Disp2Dec(cap);
+                
+                break;
             
             case setMinutes:
                 //increment minute count by 1 min from 0 to 59 and display on PC

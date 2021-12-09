@@ -21,18 +21,25 @@
 #include "UART2.h"
 #include "CTMU.h"
 
-//#pragma config FCKSM = CSECMD // Clock switching is enabled, clock monitor disabled 
-//#pragma config OSCIOFNC = ON //CLKO output disabled on pin 8, use as IO.
-void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void); //CN Interrupt (for IO Change Notification)
+#pragma config FCKSM = CSECMD // Clock switching is enabled, clock monitor disabled 
+#pragma config OSCIOFNC = ON //CLKO output disabled on pin 8, use as IO.
 
+void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void); //CN Interrupt (for IO Change Notification)
+int x = 0;
 int main(void){
     IOinit();
     NewClk(8);
     //CTMUinit();
     float cap = do_CTMU();
-    //Delay_ms(1000);
-    Disp2Dec(cap);
+    
+    char display[100] = "\r";
+//    sprintf(display, "\r capacitance:%5.9f", cap);
+//    Disp2String(display);
+    
+    //Disp2Dec(x);
+    //Disp2Dec(cap);
     Disp2String("\n");
+    x++;
     
     
     return 0;

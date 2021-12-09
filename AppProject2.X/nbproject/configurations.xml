@@ -254,6 +254,8 @@
         <property key="memories.programmemory.ranges" value="0-2bff"/>
         <property key="memories.rww" value="true"/>
         <property key="poweroptions.powerenable" value="true"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/Users/Eman2/OneDrive/Documents/MPLAB X/ENCM511/AppProject2.X/debug/default/AppProject2_ptg"/>
         <property key="programmerToGoImageName" value="AppProject2_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>

@@ -75,7 +75,7 @@ c:/program files/microchip/xc16/v1.70/bin/bin/../../lib\libm-elf.a(funpack2.eo)
 c:/program files/microchip/xc16/v1.70/bin/bin/../../lib\libm-elf.a(futil.eo)
                               c:/program files/microchip/xc16/v1.70/bin/bin/../../lib\libm-elf.a(addsf3.eo) (__fPropagateNaN)
 c:/program files/microchip/xc16/v1.70/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
-                              build/default/production/TimeDelay.o (___mulsf3)
+                              build/default/production/CTMU.o (___mulsf3)
 c:/program files/microchip/xc16/v1.70/bin/bin/../../lib\libm-elf.a(powf.eo)
                               build/default/production/UART2.o (_powf)
 c:/program files/microchip/xc16/v1.70/bin/bin/../../lib\libm-elf.a(_frexpf.eo)
@@ -118,19 +118,19 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x864           0xc96  (3222)
 .const                       0xa64                0x14            0x1e  (30)
-.text                        0xa78               0x52a           0x7bf  (1983)
-.dinit                       0xfa2                 0xe            0x15  (21)
+.text                        0xa78               0x57c           0x83a  (2106)
+.dinit                       0xff4                0x14            0x1e  (30)
 
-                 Total "program" memory used (bytes):         0x1488  (5256) 32%
+                 Total "program" memory used (bytes):         0x150c  (5388) 33%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x600]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.nbss                        0x800                   0             0x4  (4)
+.nbss                        0x800                   0             0x6  (6)
 
-                 Total "data" memory used (bytes):            0x4  (4) <1%
+                 Total "data" memory used (bytes):            0x6  (6) <1%
 
 
 Dynamic Memory Usage
@@ -138,9 +138,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x804                               0x5fc  (1532)
+stack                        0x806                               0x5fa  (1530)
 
-                 Maximum dynamic memory (bytes):          0x5fc  (1532)
+                 Maximum dynamic memory (bytes):          0x5fa  (1530)
 
 Info: Project is using a large data memory model when small data memory model is sufficient.
 
@@ -148,10 +148,12 @@ Info: Project is using a large data memory model when small data memory model is
 External Symbols in Data Memory (by address):
 
                     0x0800                  _clkval
+                    0x0802                  _x
 
 External Symbols in Data Memory (by name):
 
                     0x0800                  _clkval
+                    0x0802                  _x
 
 External Symbols in Program Memory (by address):
 
@@ -198,29 +200,29 @@ External Symbols in Program Memory (by address):
                   0x000b76                  _Disp2Hex32
                   0x000be4                  _Disp2Dec
                   0x000c44                  _Disp2String
-                  0x000c66                  _comparatorInit
-                  0x000cb8                  _IOCheck
-                  0x000d74                  _IOinit
-                  0x000d94                  _CTMUinit
-                  0x000e0c                  _do_CTMU
-                  0x000ebe                  _NewClk
-                  0x000f32                  _Delay_ms
-                  0x000f5e                  _configTimerInterrupt
-                  0x000f70                  _configTimers
-                  0x000f84                  _main
+                  0x000c66                  _CTMUinit
+                  0x000cde                  _do_CTMU
+                  0x000d9c                  _comparatorInit
+                  0x000dee                  _IOCheck
+                  0x000eaa                  _IOinit
+                  0x000eca                  _NewClk
+                  0x000f3e                  _Delay_ms
+                  0x000fa4                  _configTimerInterrupt
+                  0x000fb6                  _configTimers
+                  0x000fca                  _main
 
 External Symbols in Program Memory (by name):
 
-                  0x000d94                  _CTMUinit
-                  0x000f32                  _Delay_ms
+                  0x000c66                  _CTMUinit
+                  0x000f3e                  _Delay_ms
                   0x000be4                  _Disp2Dec
                   0x000b18                  _Disp2Hex
                   0x000b76                  _Disp2Hex32
                   0x000c44                  _Disp2String
-                  0x000cb8                  _IOCheck
-                  0x000d74                  _IOinit
+                  0x000dee                  _IOCheck
+                  0x000eaa                  _IOinit
                   0x000a78                  _InitUART2
-                  0x000ebe                  _NewClk
+                  0x000eca                  _NewClk
                   0x000ae0                  _XmitUART2
                   0x0002e2                  __DefaultInterrupt
                   0x0002d8                  __T2Interrupt
@@ -254,14 +256,14 @@ External Symbols in Program Memory (by name):
                   0x0004de                  __funpack2
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x000c66                  _comparatorInit
-                  0x000f5e                  _configTimerInterrupt
-                  0x000f70                  _configTimers
-                  0x000e0c                  _do_CTMU
+                  0x000d9c                  _comparatorInit
+                  0x000fa4                  _configTimerInterrupt
+                  0x000fb6                  _configTimers
+                  0x000cde                  _do_CTMU
                   0x000756                  _expf
                   0x000930                  _ldexpf
                   0x000974                  _logf
-                  0x000f84                  _main
+                  0x000fca                  _main
                   0x000576                  _powf
                   0x000a58                  _strlen
 
@@ -439,30 +441,30 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x3a88
+.debug_info       0x000000       0x3ad6
  *(.debug_info)
  .debug_info      0x000000        0xe80 build/default/production/UART2.o
- .debug_info      0x000e80        0xa7c build/default/production/TimeDelay.o
- .debug_info      0x0018fc       0x10b1 build/default/production/IOs.o
- .debug_info      0x0029ad        0x17f build/default/production/newmainXC16.o
- .debug_info      0x002b2c        0xf5c build/default/production/CTMU.o
+ .debug_info      0x000e80        0xa73 build/default/production/TimeDelay.o
+ .debug_info      0x0018f3       0x10b1 build/default/production/IOs.o
+ .debug_info      0x0029a4        0x1bc build/default/production/newmainXC16.o
+ .debug_info      0x002b60        0xf76 build/default/production/CTMU.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x4ba
+.debug_abbrev     0x000000        0x4ee
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x114 build/default/production/UART2.o
  .debug_abbrev    0x000114        0x15c build/default/production/TimeDelay.o
  .debug_abbrev    0x000270        0x10d build/default/production/IOs.o
- .debug_abbrev    0x00037d         0x47 build/default/production/newmainXC16.o
- .debug_abbrev    0x0003c4         0xf6 build/default/production/CTMU.o
+ .debug_abbrev    0x00037d         0x7b build/default/production/newmainXC16.o
+ .debug_abbrev    0x0003f8         0xf6 build/default/production/CTMU.o
 
-.debug_line       0x000000        0x586
+.debug_line       0x000000        0x591
  *(.debug_line)
  .debug_line      0x000000        0x17d build/default/production/UART2.o
- .debug_line      0x00017d        0x141 build/default/production/TimeDelay.o
- .debug_line      0x0002be        0x145 build/default/production/IOs.o
- .debug_line      0x000403         0x41 build/default/production/newmainXC16.o
- .debug_line      0x000444        0x142 build/default/production/CTMU.o
+ .debug_line      0x00017d        0x147 build/default/production/TimeDelay.o
+ .debug_line      0x0002c4        0x145 build/default/production/IOs.o
+ .debug_line      0x000409         0x42 build/default/production/newmainXC16.o
+ .debug_line      0x00044b        0x146 build/default/production/CTMU.o
 
 .debug_frame      0x000000        0x25a
  *(.debug_frame)
@@ -486,7 +488,7 @@ __FDS
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x17f
+                  0x000000        0x185
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000         0x98 build/default/production/UART2.o
@@ -495,9 +497,9 @@ __FDS
  .debug_pubnames
                   0x0000fd         0x3c build/default/production/IOs.o
  .debug_pubnames
-                  0x000139         0x1b build/default/production/newmainXC16.o
+                  0x000139         0x21 build/default/production/newmainXC16.o
  .debug_pubnames
-                  0x000154         0x2b build/default/production/CTMU.o
+                  0x00015a         0x2b build/default/production/CTMU.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1001,11 +1003,13 @@ __c30_signature
  __c30_signature
                   0x000670          0x6 c:/program files/microchip/xc16/v1.70/bin/bin/../../lib\liblega-c-elf.a(strlen.XX_eo)
 
-.nbss               0x0800          0x4
+.nbss               0x0800          0x6
  .nbss              0x0800          0x2 build/default/production/UART2.o
                     0x0800                  _clkval
- .nbss              0x0802          0x2 c:/program files/microchip/xc16/v1.70/bin/bin/../../lib\libm-elf.a(errno.eo)
-                    0x0802                  _errno
+ .nbss              0x0802          0x2 build/default/production/newmainXC16.o
+                    0x0802                  _x
+ .nbss              0x0804          0x2 c:/program files/microchip/xc16/v1.70/bin/bin/../../lib\libm-elf.a(errno.eo)
+                    0x0804                  _errno
 
 .ivt._U2RXInterrupt
                   0x000050          0x2
@@ -1022,11 +1026,14 @@ __c30_signature
  .ivt._T2Interrupt
                   0x000022          0x2 build/default/production/TimeDelay.o
 
+.config_FCKSM     0xf80008          0x2
+ .config_FCKSM    0xf80008          0x2 build/default/production/newmainXC16.o
+
 .const              0x8a64         0x14 load address 0x000a64  
  .const             0x8a64         0x12 build/default/production/IOs.o
  .const             0x8a76          0x2 build/default/production/newmainXC16.o
 
-.text             0x000a78        0x52a
+.text             0x000a78        0x57c
  .text            0x000a78        0x1ee build/default/production/UART2.o
                   0x000a78                  _InitUART2
                   0x000ae0                  _XmitUART2
@@ -1034,20 +1041,20 @@ __c30_signature
                   0x000b76                  _Disp2Hex32
                   0x000be4                  _Disp2Dec
                   0x000c44                  _Disp2String
- .text            0x000c66        0x12e build/default/production/IOs.o
-                  0x000c66                  _comparatorInit
-                  0x000cb8                  _IOCheck
-                  0x000d74                  _IOinit
- .text            0x000d94        0x12a build/default/production/CTMU.o
-                  0x000d94                  _CTMUinit
-                  0x000e0c                  _do_CTMU
- .text            0x000ebe         0xc6 build/default/production/TimeDelay.o
-                  0x000ebe                  _NewClk
-                  0x000f32                  _Delay_ms
-                  0x000f5e                  _configTimerInterrupt
-                  0x000f70                  _configTimers
- .text            0x000f84         0x1e build/default/production/newmainXC16.o
-                  0x000f84                  _main
+ .text            0x000c66        0x136 build/default/production/CTMU.o
+                  0x000c66                  _CTMUinit
+                  0x000cde                  _do_CTMU
+ .text            0x000d9c        0x12e build/default/production/IOs.o
+                  0x000d9c                  _comparatorInit
+                  0x000dee                  _IOCheck
+                  0x000eaa                  _IOinit
+ .text            0x000eca        0x100 build/default/production/TimeDelay.o
+                  0x000eca                  _NewClk
+                  0x000f3e                  _Delay_ms
+                  0x000fa4                  _configTimerInterrupt
+                  0x000fb6                  _configTimers
+ .text            0x000fca         0x2a build/default/production/newmainXC16.o
+                  0x000fca                  _main
 
-.dinit            0x000fa2          0xe
- .dinit           0x000fa2          0xe data_init
+.dinit            0x000ff4         0x14
+ .dinit           0x000ff4         0x14 data_init

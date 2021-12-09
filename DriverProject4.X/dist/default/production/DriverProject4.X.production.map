@@ -493,13 +493,13 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x35d2
+.debug_info       0x000000       0x35a0
  *(.debug_info)
- .debug_info      0x000000        0xa95 build/default/production/IOs.o
- .debug_info      0x000a95        0xa68 build/default/production/TimeDelay.o
- .debug_info      0x0014fd        0x720 build/default/production/newmain.o
- .debug_info      0x001c1d        0xe81 build/default/production/UART2.o
- .debug_info      0x002a9e        0xb34 build/default/production/ADC.o
+ .debug_info      0x000000        0xa8b build/default/production/IOs.o
+ .debug_info      0x000a8b        0xa5e build/default/production/TimeDelay.o
+ .debug_info      0x0014e9        0x716 build/default/production/newmain.o
+ .debug_info      0x001bff        0xe77 build/default/production/UART2.o
+ .debug_info      0x002a76        0xb2a build/default/production/ADC.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x60a

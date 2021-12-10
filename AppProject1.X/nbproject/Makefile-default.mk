@@ -95,62 +95,62 @@ MP_LINKER_FILE_OPTION=,--script=p24F16KA101.gld
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/TimeDelay.o: TimeDelay.c  .generated_files/flags/default/419d5b64aed61433e142eee1b5e9ae84d75b54dd .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/TimeDelay.o: TimeDelay.c  .generated_files/flags/default/2354ee2e39ae24583cec7305bbb0af3eb5953708 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/TimeDelay.o.d 
 	@${RM} ${OBJECTDIR}/TimeDelay.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  TimeDelay.c  -o ${OBJECTDIR}/TimeDelay.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/TimeDelay.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/UART2.o: UART2.c  .generated_files/flags/default/2e984f276adfc7db1e5ccf7764e43eb3e357d8bf .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/UART2.o: UART2.c  .generated_files/flags/default/9ae5a8f9b8f03212e09d534f833e104597616bf3 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/UART2.o.d 
 	@${RM} ${OBJECTDIR}/UART2.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  UART2.c  -o ${OBJECTDIR}/UART2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/UART2.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/newmainXC16.o: newmainXC16.c  .generated_files/flags/default/dbeec0acd8d55636be43d30be5ed14dafc20aa5f .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/newmainXC16.o: newmainXC16.c  .generated_files/flags/default/74ef4d2d5d15d33b451cdeea1224082284fd2abb .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/newmainXC16.o.d 
 	@${RM} ${OBJECTDIR}/newmainXC16.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  newmainXC16.c  -o ${OBJECTDIR}/newmainXC16.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/newmainXC16.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/IOs.o: IOs.c  .generated_files/flags/default/5423d69d9c5e809296ea358f58928f505e57ddad .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/IOs.o: IOs.c  .generated_files/flags/default/ac99476bda88ce8fdb65721a216eb8ecd05a3ff8 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/IOs.o.d 
 	@${RM} ${OBJECTDIR}/IOs.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  IOs.c  -o ${OBJECTDIR}/IOs.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/IOs.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/CTMU.o: CTMU.c  .generated_files/flags/default/caecc7db515dd644137de50ee552835e10aad4d3 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/CTMU.o: CTMU.c  .generated_files/flags/default/59ab9495bd5451113257d11e09f511eea88b56c1 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/CTMU.o.d 
 	@${RM} ${OBJECTDIR}/CTMU.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  CTMU.c  -o ${OBJECTDIR}/CTMU.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/CTMU.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 else
-${OBJECTDIR}/TimeDelay.o: TimeDelay.c  .generated_files/flags/default/5e375659d8f9cc89024e683c65643653cb1fb07b .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/TimeDelay.o: TimeDelay.c  .generated_files/flags/default/164c54e54993c2b39421cea59fec99bcc007c739 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/TimeDelay.o.d 
 	@${RM} ${OBJECTDIR}/TimeDelay.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  TimeDelay.c  -o ${OBJECTDIR}/TimeDelay.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/TimeDelay.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/UART2.o: UART2.c  .generated_files/flags/default/77cba7d8d4bb842992ef1882d09dc54f1b99d834 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/UART2.o: UART2.c  .generated_files/flags/default/6a2cd7d33040006a2fb7d4f1a11893c0e4ee755f .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/UART2.o.d 
 	@${RM} ${OBJECTDIR}/UART2.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  UART2.c  -o ${OBJECTDIR}/UART2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/UART2.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/newmainXC16.o: newmainXC16.c  .generated_files/flags/default/1df44c62c0b6b2be46cbf115f11a2dbbf1ffc965 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/newmainXC16.o: newmainXC16.c  .generated_files/flags/default/fe57cbe09be006672e9e0ecbcdeabc479b2c2f4e .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/newmainXC16.o.d 
 	@${RM} ${OBJECTDIR}/newmainXC16.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  newmainXC16.c  -o ${OBJECTDIR}/newmainXC16.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/newmainXC16.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/IOs.o: IOs.c  .generated_files/flags/default/4f60177ce51389f39dc3557e3dcad10471db8a93 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/IOs.o: IOs.c  .generated_files/flags/default/6ec9725e39c2ee9d774737845f6e8c29033a0659 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/IOs.o.d 
 	@${RM} ${OBJECTDIR}/IOs.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  IOs.c  -o ${OBJECTDIR}/IOs.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/IOs.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/CTMU.o: CTMU.c  .generated_files/flags/default/9d2c8d2b1202d8b5b89f4b911bbaba54dd5345e1 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
+${OBJECTDIR}/CTMU.o: CTMU.c  .generated_files/flags/default/992e9b06d6f058c3b524aaa5c643f8bd88d58149 .generated_files/flags/default/ea2a7066b12fd53932fd9a63046cd42f96dd5fb4
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/CTMU.o.d 
 	@${RM} ${OBJECTDIR}/CTMU.o 

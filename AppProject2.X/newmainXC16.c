@@ -19,6 +19,7 @@
 #include "UART2.h"
 #include "ADC.h"
 #include "Comparator.h"
+#include "capacitance.h"
 
 
 
@@ -38,6 +39,9 @@ void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void); //CN Interrupt (
 void DebounceButtons();
 void Display();
 
+void startCapCharge();
+void discharge();
+
 
 //VARIABLES
 int mode = 0; //state variable
@@ -47,8 +51,8 @@ int minutes = 0;
 int seconds = 0; 
 int milliseconds = 0; 
 
-double compare();
-void comparatorInit();
+//double compare();
+//void comparatorInit();
 
 
 
@@ -71,15 +75,15 @@ int main(void) {
     int aveDec = 0;
     
     while(1)    
-    {
-        /*Delay_ms(2000);
+    /*{
+        Delay_ms(2000);
         double time = getInterruptedTime();
         char timeDisplay[100] = "\r";
         sprintf(timeDisplay, "\rTime:.%5.3f.ms.........................", time);
         Disp2String(timeDisplay);
-    }
+    }*/
     
-    {*/
+    {
         ADCVoltage = 0;
         ADCResistance = 0;
         
@@ -92,12 +96,12 @@ int main(void) {
             case frequency:
                 NewClk(32);
                 
-                comparatorInit();
+                /*comparatorInit(true);
                 
                 char freqDisplay[100] = "\r";
                 sprintf(freqDisplay, "\rFrequency:.%5.3f.Hz.........................", compare());
                 Disp2String(freqDisplay);
-                                
+                        */        
                 break; 
             
             case Voltmeter:
@@ -143,8 +147,35 @@ int main(void) {
                 break;
                 
             case capacitanceMeter:
-                
-                break;
+        //        TRISAbits.TRISA6 = 0; //Make RA6 digital output // this is what supplies voltage
+        //        LATAbits.LATA6 = 1; // turn on voltage to 3.3V
+
+
+                //ADD TO APP2
+                Disp2String("\nDischarging\n");
+                discharge();
+                Disp2String("Starting Charging\n");
+                //LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+
+                startCapCharge();
+                Delay_ms(4000);
+                //while(CM1CONbits.CEVT != 1);
+                double time = getInterruptedTime();
+                double capacitance = time/2100;
+                char freqDisplay[100] = "\r";
+                sprintf(freqDisplay, "\nCapacitance:.%f .........................\n", time);
+                Disp2String(freqDisplay);        
+                LATBbits.LATB8 = 0; // Turns ON LED connected to port RB8
+
+                //while(eventCount==0); //verify this works!! ..dont think i need this bc the timer should snap me out
+                Disp2String("Starting Discharging");
+                discharge();
+
+
+                //display our capacitance reading (done in interrupt)
+
+                //DONE APP2 
+                break; 
                 
             case stopWatch:
                 milliseconds--;

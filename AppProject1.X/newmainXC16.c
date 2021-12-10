@@ -73,9 +73,9 @@ int main(void) {
         
         switch(mode){
             case capacitance:
-                cap = do_CTMU();
+                //cap = do_CTMU();
                 
-                Disp2Dec(cap);
+                //Disp2Dec(cap);
                 
                 break;
             
@@ -231,6 +231,7 @@ void Display(){
 
 //CN Interrupt (for IO Change Notification)
 void __attribute__((interrupt, no_auto_psv))_CNInterrupt(void){ 
+    Disp2String("CN Interrupt \n");
     if(IFS1bits.CNIF == 1) //if the flag is set, means IO changed 
     {
         prevMode = mode;

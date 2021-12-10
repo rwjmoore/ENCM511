@@ -36,10 +36,7 @@ void DebounceButtons();
 uint64_t getInterruptedTime();
 void Display();
 
-double compare();
-void startCapCharge();
-void discharge();
-void comparator_Init(int val);
+float compare();
 
 //VARIABLES
 int mode = 0; //state variable
@@ -115,7 +112,7 @@ int main(void) {
                 
                 resistorCurrent = (3.25 - ((double)ADCVoltage)/1000)/1000;
                 
-                ADCResistance = (3.25 - (resistorCurrent*1000))/(resistorCurrent);
+                ADCResistance = (3.25 - (resistorCurrent*1000))/(resistorCurrent) - 400;
                 
                 char resistDisplay[50] = "\r";
                 
@@ -126,34 +123,7 @@ int main(void) {
                 
                 break;
                 
-            case capacitanceMeter:
-        //        TRISAbits.TRISA6 = 0; //Make RA6 digital output // this is what supplies voltage
-        //        LATAbits.LATA6 = 1; // turn on voltage to 3.3V
-
-                Disp2String("\nDischarging\n");
-                discharge();
-                Disp2String("Starting Charging\n");
-                //LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
-
-                startCapCharge();
-                Delay_ms(4000);
-                
-                int time = getInterruptedTime();
-                //double capacitance = time / 2100;
-                char capDisplay[50] = "\r";
-                sprintf(capDisplay, "\nCapacitance:.%d.F.........................\n", time);
-                Disp2String(capDisplay);        
-                LATBbits.LATB8 = 0; // Turns ON LED connected to port RB8
-
-                //while(eventCount==0); //verify this works!! ..dont think i need this bc the timer should snap me out
-                //Disp2String("Starting Discharging");
-                discharge();
-
-
-                //display our capacitance reading (done in interrupt)
-
-                break;            
-                
+            
                 
             
         }
@@ -239,38 +209,9 @@ void DebounceButtons()
 }
 
 
-void startCapCharge(){
-    //calculating capacitance
-    //output voltage pin of 3.25V is RA6
-    TRISBbits.TRISB9 = 0; //Make RB9 digital output // this is what supplies voltage
-    //TRISBbits.TRISB2 = 0; //Make RA6 digital output // this is what discharges the capacitor
-    Delay_ms(100);
-    //configure the comparator to interrupt at 0.63*Vdd = 2.0475V on same pin as frequency
-    comparator_Init(0); //false sets it to capacitance mode
-    
-    //start charging the capacitor
 
-    LATBbits.LATB9 = 1; // turn on voltage to 3.3V
-    CM1CONbits.CON = 1; 	// Turn Comparator ON
 
-    //start timer, causes code to go into idle
-}
 
-void discharge(){
-    //after displaying calculation in main, we need to discharge the capacitor 
-    TRISBbits.TRISB9 = 0; //Make RA6 digital output // this is what supplies voltage
-    LATBbits.LATB9 = 0; // turn on voltage to 3.3V
-    Delay_ms(1000);
-    Delay_ms(1000);
-    Delay_ms(1000);
-    
-    Delay_ms(1000);
-    Delay_ms(1000);
-    Delay_ms(1000);
-    
-    //shut off comparator module 
-    //CM1CONbits.CON = 1; 	// Turn Comparator OFF
-}
 
 /*int eventCount = 0;
 double currentFrequency = 0;

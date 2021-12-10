@@ -79,14 +79,14 @@ int main(void) {
                 ADCVoltage = collectSamples(5);
                 
                 memset(&display, '\0', sizeof(display));
-                sprintf(display, "\rADC.Average.Voltage:.%5.3f..V.......", ADCResistance);
+                sprintf(display, "\rADC.Average.Voltage:.%5.3f..V.......", ADCVoltage);
                 Disp2String(display);
                 
                 Delay_ms(1000);
                 
                 break;
                 
-            case capacitanceMeter:
+            case Ohmeter:
                 
                 NewClk(32);
                 
@@ -105,16 +105,17 @@ int main(void) {
                 
                 break;
                 
-           case Ohmeter:
+           case capacitanceMeter:
+                memset(&display, '\0', sizeof(display));
+                sprintf(display, "\rCapacitance:.Charging.................");
                 discharge();
-
                 startCapCharge();
-                Delay_ms(4000);
+                Delay_ms(6000);
                 
-                float capacitance = getInterruptedTime() / 2100;
+                float capacitance = getInterruptedTime()  ;
               
                 memset(&display, '\0', sizeof(display));
-                sprintf(display, "\rCapacitance:.%f .........................", getInterruptedTime() );
+                sprintf(display, "\rCapacitance:.%f.uF.........................", capacitance * 1.034 );
                 Disp2String(display); 
                 discharge();
                 break;           
@@ -207,8 +208,6 @@ void startCapCharge(){
 
     LATBbits.LATB9 = 1; // turn on voltage to 3.3V
     CM1CONbits.CON = 1; 	// Turn Comparator ON
-
-    //start timer, causes code to go into idle
 }
 
 void discharge(){
@@ -222,7 +221,4 @@ void discharge(){
     Delay_ms(1000);
     Delay_ms(1000);
     Delay_ms(1000);
-    
-    //shut off comparator module 
-    //CM1CONbits.CON = 1; 	// Turn Comparator OFF
 }

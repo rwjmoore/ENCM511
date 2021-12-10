@@ -34,7 +34,7 @@ void comparator_Init(uint16_t mode)
     CM1CONbits.COE = 0; 	// Disable output pin
     CM1CONbits.CPOL = 0; 	// Standard sense. +In High ==> Out High
     CM1CONbits.CREF = 1; 	// +IN is internal CVRef
-    CM1CONbits.CCH = 1; 	// -IN is C1INB Pin
+    CM1CONbits.CCH = 1; 	// -IN is C1INC Pin
     //CM1CONbits.CON = 1; 	// Turn Comparator ON
     
     //change voltage reference based on mode 
@@ -73,9 +73,7 @@ void __attribute__((interrupt, no_auto_psv)) _CompInterrupt(void)
         }
     }
     
-    if (frequency){ //for measuring frequency
-    eventCount++; 
-    }
+    if (frequency) eventCount++;
     Nop();
     
     return;
@@ -83,7 +81,6 @@ void __attribute__((interrupt, no_auto_psv)) _CompInterrupt(void)
 
 float compare()
 {    
-    Delay_ms(1000);
      
     if (!timerIsON())
     {
@@ -92,5 +89,5 @@ float compare()
         eventCount = 0;
     }
     
-    return 0;
+    return currentFrequency;
 }

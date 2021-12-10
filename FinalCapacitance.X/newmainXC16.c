@@ -43,34 +43,34 @@ int main(void){
     switch (mode){
     
     case capacitanceMeter:
-//        TRISAbits.TRISA6 = 0; //Make RA6 digital output // this is what supplies voltage
-//        LATAbits.LATA6 = 1; // turn on voltage to 3.3V
+        TRISAbits.TRISA6 = 0; //Make RA6 digital output // this is what supplies voltage
+        LATAbits.LATA6 = 1; // turn on voltage to 3.3V
 
 
-        //ADD TO APP2
-        Disp2String("\nDischarging\n");
-        discharge();
-        Disp2String("Starting Charging\n");
-        //LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
-
-        startCapCharge();
-        Delay_ms(4000);
-        //while(CM1CONbits.CEVT != 1);
-        int time = getInterruptedTime();
-        //double capacitance = time/2100;
-        char freqDisplay[50] = "\r";
-        sprintf(freqDisplay, "\nCapacitance:.%d .........................\n", time);
-        Disp2String(freqDisplay);        
-        LATBbits.LATB8 = 0; // Turns ON LED connected to port RB8
-
-        //while(eventCount==0); //verify this works!! ..dont think i need this bc the timer should snap me out
-        Disp2String("Starting Discharging");
-        discharge();
-        
-        
-        //display our capacitance reading (done in interrupt)
-        
-        //DONE APP2 
+//        //ADD TO APP2
+//        Disp2String("\nDischarging\n");
+//        discharge();
+//        Disp2String("Starting Charging\n");
+//        //LATBbits.LATB8 = 1; // Turns ON LED connected to port RB8
+//
+//        startCapCharge();
+//        Delay_ms(4000);
+//        //while(CM1CONbits.CEVT != 1);
+//        int time = getInterruptedTime();
+//        //double capacitance = time/2100;
+//        char freqDisplay[50] = "\r";
+//        sprintf(freqDisplay, "\nCapacitance:.%d .........................\n", time);
+//        Disp2String(freqDisplay);        
+//        LATBbits.LATB8 = 0; // Turns ON LED connected to port RB8
+//
+//        //while(eventCount==0); //verify this works!! ..dont think i need this bc the timer should snap me out
+//        Disp2String("Starting Discharging");
+//        discharge();
+//        
+//        
+//        //display our capacitance reading (done in interrupt)
+//        
+//        //DONE APP2 
         break; 
     
     }

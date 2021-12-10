@@ -9,11 +9,9 @@
 #define Idle() {__asm__ volatile ("pwrsav #1");}    //Idle() - put MCU in idle mode - only CPU off
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <xc.h>
 #include <p24F16KA101.h>
 #include <string.h>
-#include <stdbool.h>
 
 #include "xc.h"
 #include "IOs.h"
@@ -58,9 +56,9 @@ int main(void){
         startCapCharge();
         Delay_ms(4000);
         //while(CM1CONbits.CEVT != 1);
-        double time = getInterruptedTime();
-        double capacitance = time/2100;
-        char freqDisplay[100] = "\r";
+        int time = getInterruptedTime();
+        //double capacitance = time/2100;
+        char freqDisplay[50] = "\r";
         sprintf(freqDisplay, "\nCapacitance:.%d .........................\n", time);
         Disp2String(freqDisplay);        
         LATBbits.LATB8 = 0; // Turns ON LED connected to port RB8

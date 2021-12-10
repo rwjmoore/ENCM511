@@ -1,23 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <xc.h>
 #include <p24F16KA101.h>
-#include <string.h>
-#include <stdbool.h>
 
 #include "UART2.h"
 #include "Comparator.h"
 #include "TimeDelay.h"
 
 int eventCount = 0;
-bool frequency = false;
+int frequency = 0;
 int capCount = 0;
+int currentFrequency = 0;
 
 void Delay_ms(uint32_t time_ms);
 uint32_t getInterruptedTime();
 //If frequency ==TRUE, configure for frequency (keep trigger at 1/2*Vdd)
 //If frequency == FALSE, configure for capacitance (change trigger to 0.63*Vdd)..also get comparator interrupt to return the time it took
-void comparator_Init(bool mode)
+void comparator_Init(int mode)
 {
     frequency = mode;
     TRISAbits.TRISA6 = 0; 	// for C2Out
@@ -89,18 +86,15 @@ void __attribute__((interrupt, no_auto_psv)) _CompInterrupt(void)
 }
 
 double compare()
-{
-    /*if (CM1CONbits.CEVT == 1) 	// Check C1EVT bit or CEVT
-    {		// Count edges for whoever uses them
-        // Must use Control Register to clear flag.
-        //Disp2String("Event Count:.");
-        //Disp2Dec(eventCount);
-        // Status is read-only.
-        CM1CONbits.CEVT = 0;
-    }*/
-    
+{    
     Delay_ms(1000);
+     
+    if (!timerIsON())
+    {
+        StartTimer(1000);
+        currentFrequency = eventCount;
+        eventCount = 0;
+    }
     
-    //return getInterruptedTime();
     return 0;
 }

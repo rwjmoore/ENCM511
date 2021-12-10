@@ -7,12 +7,8 @@
 
 
 #include "xc.h"
-#include <stdio.h>
-#include <stdlib.h>
 #include <xc.h>
 #include <p24F16KA101.h>
-#include <string.h>
-#include <stdbool.h>
 
 #include "UART2.h"
 #include "Comparator.h"
@@ -27,7 +23,7 @@ void startCapCharge(){
     //TRISBbits.TRISB2 = 0; //Make RA6 digital output // this is what discharges the capacitor
     Delay_ms(100);
     //configure the comparator to interrupt at 0.63*Vdd = 2.0475V on same pin as frequency
-    comparator_Init(false); //false sets it to capacitance mode
+    comparator_Init(0); //false sets it to capacitance mode
     
     //start charging the capacitor
 

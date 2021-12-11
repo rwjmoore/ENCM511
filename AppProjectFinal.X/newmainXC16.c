@@ -79,7 +79,7 @@ int main(void) {
                 ADCVoltage = collectSamples(5);
                 
                 memset(&display, '\0', sizeof(display));
-                sprintf(display, "\rADC.Average.Voltage:.%5.3f..V.......", ADCVoltage);
+                sprintf(display, "\rADC.Average.Voltage:.%5.3f..V.......", ADCVoltage/1000);
                 Disp2String(display);
                 
                 Delay_ms(1000);
@@ -107,7 +107,8 @@ int main(void) {
                 
            case capacitanceMeter:
                 memset(&display, '\0', sizeof(display));
-                sprintf(display, "\rCapacitance:.Charging.................");
+                //sprintf(display, "\rCapacitance:.Charging.................");
+                Disp2String("\rCapacitance:............uF");
                 discharge();
                 startCapCharge();
                 Delay_ms(6000);
@@ -115,7 +116,7 @@ int main(void) {
                 float capacitance = getInterruptedTime()  ;
               
                 memset(&display, '\0', sizeof(display));
-                sprintf(display, "\rCapacitance:.%f.uF.........................", capacitance * 1.034 );
+                sprintf(display, "\rCapacitance:.%f.uF.........................", capacitance / 2 );
                 Disp2String(display); 
                 discharge();
                 break;           
